@@ -17,26 +17,25 @@ public class OrderService {
 	}
 
 	public List<Order> getAllOrders() {
-
-		return null;
+		return orderRepository.findAll();
 	}
 
 	public Order getOrderById(long id) {
-
-		return null;
+		return orderRepository.findById(id).orElse(null);
 	}
 
 	public Order insertNewOrder(Order order) {
-
-		return null;
+		order.setId(null);
+		return orderRepository.save(order);
 	}
 
-	public Order updateOrderById(long id, Order updatedOrder) {
-
-		return null;
+	public Order updateOrderById(long id, Order replacement) {
+		replacement.setId(id);
+		return orderRepository.save(replacement);
 	}
 
 	public void deleteOrderById(long id) {
+		orderRepository.deleteById(id);
 
 	}
 }

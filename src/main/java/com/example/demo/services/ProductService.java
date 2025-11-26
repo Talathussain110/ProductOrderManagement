@@ -17,26 +17,25 @@ public class ProductService {
 	}
 
 	public List<Product> getAllProducts() {
-
-		return null;
+		return productRepository.findAll();
 	}
 
 	public Product getProductById(long id) {
-
-		return null;
+		return productRepository.findById(id).orElse(null);
 	}
 
 	public Product insertNewProduct(Product product) {
-
-		return null;
+		product.setId(null);
+		return productRepository.save(product);
 	}
 
-	public Product updateProductById(long id, Product updatedProduct) {
-
-		return null;
+	public Product updateProductById(long id, Product replacement) {
+		replacement.setId(id);
+		return productRepository.save(replacement);
 	}
 
 	public void deleteProductById(long id) {
+		productRepository.deleteById(id);
 
 	}
 }

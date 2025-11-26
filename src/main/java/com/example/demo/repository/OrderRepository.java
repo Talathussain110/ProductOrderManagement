@@ -10,22 +10,22 @@ import com.example.demo.model.Order;
 @Repository
 public class OrderRepository {
 
-	public List<Order> findAll() {
+	private static final String TEMPORARY_IMPLEMENTATION = "Temporary implementation";
 
-		return null;
+	public List<Order> findAll() {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 
 	public Optional<Order> findById(long id) {
-
-		return Optional.empty();
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 
 	public Order save(Order order) {
-
-		return null;
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 
 	public void deleteById(long id) {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 
 	}
 }

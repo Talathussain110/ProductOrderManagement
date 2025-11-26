@@ -10,22 +10,22 @@ import com.example.demo.model.Product;
 @Repository
 public class ProductRepository {
 
-	public List<Product> findAll() {
+	private static final String TEMPORARY_IMPLEMENTATION = "Temporary implementation";
 
-		return null;
+	public List<Product> findAll() {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 
 	public Optional<Product> findById(long id) {
-
-		return Optional.empty();
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 
 	public Product save(Product product) {
-
-		return null;
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 
 	public void deleteById(long id) {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 
 	}
 }
