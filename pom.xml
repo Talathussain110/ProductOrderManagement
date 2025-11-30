@@ -2,60 +2,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.0</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<version>3.5.8</version>
 	</parent>
+
 	<groupId>com.example</groupId>
 	<artifactId>ProductOrderManagement</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
 	<name>ProductOrderManagement</name>
-	<description>Demo project for Spring Boot</description>
-	<url />
-	<licenses>
-		<license />
-	</licenses>
-	<developers>
-		<developer />
-	</developers>
-	<scm>
-		<connection />
-		<developerConnection />
-		<tag />
-		<url />
-	</scm>
+	<description>Spring Boot Project</description>
+
 	<properties>
 		<java.version>17</java.version>
-
-		<!-- For SonarQube -->
-		<sonar.coverage.jacoco.xmlReportPaths>
-			${project.reporting.outputDirectory}/jacoco/jacoco.xml
-		</sonar.coverage.jacoco.xmlReportPaths>
-		<sonar.junit.reportPaths>
-			${project.build.directory}/surefire-reports,
-			${project.build.directory}/failsafe-reports
-		</sonar.junit.reportPaths>
-		<sonar.sources>
-			pom.xml,
-			${project.build.sourceDirectory},
-			${basedir}/src/main/resources
-		</sonar.sources>
-		<sonar.coverage.exclusions>
-			**/*Application.*,
-			**/model/*
-		</sonar.coverage.exclusions>
-		<sonar.issue.ignore.multicriteria>e11</sonar.issue.ignore.multicriteria>
-		<sonar.issue.ignore.multicriteria.e11.ruleKey>
-			java:S2699
-		</sonar.issue.ignore.multicriteria.e11.ruleKey>
-		<sonar.issue.ignore.multicriteria.e11.resourceKey>
-			**/*ApplicationTests.java
-		</sonar.issue.ignore.multicriteria.e11.resourceKey>
 	</properties>
+
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -69,10 +40,10 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc</artifactId>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -80,28 +51,8 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -112,6 +63,52 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-test-source</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/it/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>/*Test.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<configuration>
+							<includes>
+								<include>/ApplicationTests.java</include>
+								<include>**/IT.java</include>
+							</includes>
+						</configuration>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 
 		<pluginManagement>
@@ -119,7 +116,7 @@
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.8.6</version>
+					<version>0.8.13</version>
 					<configuration>
 						<excludes>
 							<exclude>**/*Application.*</exclude>
@@ -140,6 +137,12 @@
 					<groupId>org.eluder.coveralls</groupId>
 					<artifactId>coveralls-maven-plugin</artifactId>
 					<version>4.3.0</version>
+					<configuration>
+
+						<repoToken>${env.COVERALLS_REPO_TOKEN}</repoToken>
+
+						<failOnServiceError>false</failOnServiceError>
+					</configuration>
 					<dependencies>
 						<dependency>
 							<groupId>javax.xml.bind</groupId>
