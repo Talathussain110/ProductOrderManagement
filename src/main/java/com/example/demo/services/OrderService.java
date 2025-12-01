@@ -1,0 +1,17 @@
+package com.example.demo.services;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.demo.model.Order;
+
+@Service
+public class OrderService {
+
+    private static final String TEMPORARY_IMPLEMENTATION = "Temporary implementation";
+
+    public List<Order> getAllOrders() {
+        throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+    }
+}

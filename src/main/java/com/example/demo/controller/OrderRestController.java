@@ -1,18 +1,25 @@
 package com.example.demo.controller;
 
-import java.util.Collections;
 import java.util.List;
-
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Order;
+import com.example.demo.services.OrderService;
 
 @RestController
+@RequestMapping("/api/orders")
 public class OrderRestController {
 
-	@GetMapping("/api/orders")
+	private final OrderService orderService;
+
+	public OrderRestController(OrderService orderService) {
+		this.orderService = orderService;
+	}
+
+	@GetMapping
 	public List<Order> allOrders() {
-		return Collections.emptyList();
+		return orderService.getAllOrders();
 	}
 }
