@@ -1,11 +1,17 @@
 package com.example.demo.controller;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
 
@@ -51,21 +57,58 @@ class ProductRestControllerTest {
 	}
 
 	@Test
-	public void testProductByIdWithExistingProduct() throws Exception {
-		Product p1 = new Product(1L, "Laptop", 1500.00);
+	public void testCreateProduct() throws Exception {
+		Product newProduct = new Product(3L, "Smartphone", 500.00);
+		when(productService.insertNewProduct(any(Product.class))).thenReturn(newProduct);
 
-		when(productService.getProductById(1L)).thenReturn(p1);
+		String newProductJson = """
+				{
+				  "name": "Smartphone",
+				  "price": 500.00
+				}
+				""";
 
-		mvc.perform(get("/api/products/1").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(jsonPath("$.id", is(1))).andExpect(jsonPath("$.name", is("Laptop")))
-				.andExpect(jsonPath("$.price", is(1500.00)));
+		this.mvc.perform(post("/api/products/new").contentType(MediaType.APPLICATION_JSON).content(newProductJson))
+				.andExpect(jsonPath("$.id", is(3))).andExpect(jsonPath("$.name", is("Smartphone")))
+				.andExpect(jsonPath("$.price", is(500.00)));
 	}
 
 	@Test
-	public void testProductByIdWithNotFoundProduct() throws Exception {
-		when(productService.getProductById(1L)).thenReturn(null);
+	public void testUpdateProductExisting() throws Exception {
+		Product updatedProduct = new Product(1L, "Laptop Pro", 1700.00);
+		when(productService.updateProductById(anyLong(), any(Product.class))).thenReturn(updatedProduct);
 
-		mvc.perform(get("/api/products/1").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(content().string(""));
+		String updateProductJson = """
+				{
+				  "name": "Laptop Pro",
+				  "price": 1700.00
+				}
+				""";
+
+		mvc.perform(put("/api/products/1").contentType(MediaType.APPLICATION_JSON).content(updateProductJson))
+				.andExpect(status().isOk()).andExpect(jsonPath("$.id", is(1)))
+				.andExpect(jsonPath("$.name", is("Laptop Pro"))).andExpect(jsonPath("$.price", is(1700.00)));
+	}
+
+	@Test
+	public void testUpdateProductNotFound() throws Exception {
+		when(productService.updateProductById(anyLong(), any(Product.class))).thenReturn(null);
+
+		String updateProductJson = """
+				{
+				  "name": "Nonexistent Product",
+				  "price": 999.99
+				}
+				""";
+
+		mvc.perform(put("/api/products/99").contentType(MediaType.APPLICATION_JSON).content(updateProductJson))
+				.andExpect(status().isOk()).andExpect(content().string(""));
+	}
+
+	@Test
+	public void testDeleteProduct() throws Exception {
+		doNothing().when(productService).deleteProductById(anyLong());
+
+		mvc.perform(delete("/api/products/1")).andExpect(status().isOk()).andExpect(content().string(""));
 	}
 }

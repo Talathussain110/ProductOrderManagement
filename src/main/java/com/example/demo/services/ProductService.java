@@ -18,4 +18,16 @@ public class ProductService {
 	public Product getProductById(long id) {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
+	
+	public Product insertNewProduct(Product product) {
+        throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+    }
+
+    public Product updateProductById(long id, Product replacement) {
+        throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+    }
+
+    public void deleteProductById(long id) {
+        throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+    }
 }

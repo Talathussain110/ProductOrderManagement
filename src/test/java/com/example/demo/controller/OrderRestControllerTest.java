@@ -1,11 +1,17 @@
 package com.example.demo.controller;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -62,23 +68,64 @@ class OrderRestControllerTest {
 	}
 
 	@Test
-	public void testOrderByIdWithExistingOrder() throws Exception {
+	public void testCreateOrder() throws Exception {
 		Product p1 = new Product(1L, "Laptop", 1500.00);
-		Order order = new Order(1L, LocalDate.parse("2025-01-10"));
-		order.setProducts(Set.of(p1));
+		Order newOrder = new Order(3L, LocalDate.parse("2025-08-10"));
+		newOrder.setProducts(Set.of(p1));
 
-		when(orderService.getOrderById(1L)).thenReturn(order);
+		when(orderService.insertNewOrder(any(Order.class))).thenReturn(newOrder);
 
-		mvc.perform(get("/api/orders/1").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(jsonPath("$.id", is(1))).andExpect(jsonPath("$.orderDate", is("2025-01-10")))
+		String newOrderJson = """
+				{
+				  "orderDate": "2025-08-10",
+				  "products": [{"id": 1, "name": "Laptop", "price": 1500.00}]
+				}
+				""";
+
+		this.mvc.perform(post("/api/orders/new").contentType(MediaType.APPLICATION_JSON).content(newOrderJson))
+				.andExpect(jsonPath("$.id", is(3))).andExpect(jsonPath("$.orderDate", is("2025-08-10")))
 				.andExpect(jsonPath("$.products[0].id", is(1))).andExpect(jsonPath("$.products[0].name", is("Laptop")));
 	}
 
 	@Test
-	public void testOrderByIdWithNotFoundOrder() throws Exception {
-		when(orderService.getOrderById(1L)).thenReturn(null);
+	public void testUpdateOrderExisting() throws Exception {
+		Product p1 = new Product(1L, "Laptop", 1500.00);
+		Order updatedOrder = new Order(1L, LocalDate.parse("2025-06-20"));
+		updatedOrder.setProducts(Set.of(p1));
 
-		mvc.perform(get("/api/orders/1").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(content().string(""));
+		when(orderService.updateOrderById(anyLong(), any(Order.class))).thenReturn(updatedOrder);
+
+		String updateOrderJson = """
+				{
+				  "orderDate": "2025-06-20",
+				  "products": [{"id": 1, "name": "Laptop", "price": 1500.00}]
+				}
+				""";
+
+		mvc.perform(put("/api/orders/1").contentType(MediaType.APPLICATION_JSON).content(updateOrderJson))
+				.andExpect(status().isOk()).andExpect(jsonPath("$.id", is(1)))
+				.andExpect(jsonPath("$.orderDate", is("2025-06-20")));
+	}
+
+	@Test
+	public void testUpdateOrderNotFound() throws Exception {
+		when(orderService.updateOrderById(anyLong(), any(Order.class))).thenReturn(null);
+
+		String updateOrderJson = """
+				{
+				  "orderDate": "2025-06-20",
+				  "products": [{"id": 1, "name": "Laptop", "price": 1500.00}]
+				}
+				""";
+
+		mvc.perform(put("/api/orders/99").contentType(MediaType.APPLICATION_JSON).content(updateOrderJson))
+				.andExpect(status().isOk()).andExpect(content().string(""));
+	}
+
+	@Test
+	public void testDeleteOrder() throws Exception {
+		doNothing().when(orderService).deleteOrderById(anyLong());
+
+		mvc.perform(delete("/api/orders/1")).andExpect(status().isOk()).andExpect(content().string(""));
 	}
 }

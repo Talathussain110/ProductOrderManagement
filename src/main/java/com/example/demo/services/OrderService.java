@@ -18,4 +18,16 @@ public class OrderService {
 	public Order getOrderById(long id) {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
+	
+	public Order insertNewOrder(Order order) {
+        throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+    }
+
+    public Order updateOrderById(long id, Order replacement) {
+        throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+    }
+
+    public void deleteOrderById(long id) {
+        throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+    }
 }
