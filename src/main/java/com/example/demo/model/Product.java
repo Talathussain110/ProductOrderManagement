@@ -1,9 +1,15 @@
 package com.example.demo.model;
 
 import java.util.Objects;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
+@Entity
 public class Product {
 
+	@Id
+	@GeneratedValue
 	private Long id;
 	private String name;
 	private double price;
@@ -14,7 +20,9 @@ public class Product {
 		this.price = price;
 	}
 
-	// Getters and setters
+	public Product() {
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -39,13 +47,11 @@ public class Product {
 		this.price = price;
 	}
 
-	// toString
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", price=" + price + "]";
 	}
 
-	// hashCode and equals
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, name, price);
