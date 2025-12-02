@@ -9,9 +9,13 @@ import com.example.demo.model.Order;
 @Service
 public class OrderService {
 
-    private static final String TEMPORARY_IMPLEMENTATION = "Temporary implementation";
+	private static final String TEMPORARY_IMPLEMENTATION = "Temporary implementation";
 
-    public List<Order> getAllOrders() {
-        throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-    }
+	public List<Order> getAllOrders() {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+	}
+
+	public Order getOrderById(long id) {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+	}
 }

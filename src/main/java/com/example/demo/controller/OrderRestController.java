@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,14 +14,11 @@ import com.example.demo.services.OrderService;
 @RequestMapping("/api/orders")
 public class OrderRestController {
 
-	private final OrderService orderService;
+    @Autowired
+    private OrderService orderService;
 
-	public OrderRestController(OrderService orderService) {
-		this.orderService = orderService;
-	}
-
-	@GetMapping
-	public List<Order> allOrders() {
-		return orderService.getAllOrders();
-	}
+    @GetMapping
+    public List<Order> allOrders() {
+        return orderService.getAllOrders();
+    }
 }

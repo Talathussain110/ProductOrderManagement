@@ -4,8 +4,11 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.hamcrest.CoreMatchers.is;
 
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -45,5 +48,24 @@ class ProductRestControllerTest {
 
 		mvc.perform(get("/api/products").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(content().json(expectedJson));
+	}
+
+	@Test
+	public void testProductByIdWithExistingProduct() throws Exception {
+		Product p1 = new Product(1L, "Laptop", 1500.00);
+
+		when(productService.getProductById(1L)).thenReturn(p1);
+
+		mvc.perform(get("/api/products/1").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+				.andExpect(jsonPath("$.id", is(1))).andExpect(jsonPath("$.name", is("Laptop")))
+				.andExpect(jsonPath("$.price", is(1500.00)));
+	}
+
+	@Test
+	public void testProductByIdWithNotFoundProduct() throws Exception {
+		when(productService.getProductById(1L)).thenReturn(null);
+
+		mvc.perform(get("/api/products/1").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+				.andExpect(content().string(""));
 	}
 }

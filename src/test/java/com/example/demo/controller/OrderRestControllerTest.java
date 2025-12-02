@@ -4,10 +4,13 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.hamcrest.CoreMatchers.is;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -56,5 +59,26 @@ class OrderRestControllerTest {
 
 		mvc.perform(get("/api/orders").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(content().json(expectedJson));
+	}
+
+	@Test
+	public void testOrderByIdWithExistingOrder() throws Exception {
+		Product p1 = new Product(1L, "Laptop", 1500.00);
+		Order order = new Order(1L, LocalDate.parse("2025-01-10"));
+		order.setProducts(Set.of(p1));
+
+		when(orderService.getOrderById(1L)).thenReturn(order);
+
+		mvc.perform(get("/api/orders/1").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+				.andExpect(jsonPath("$.id", is(1))).andExpect(jsonPath("$.orderDate", is("2025-01-10")))
+				.andExpect(jsonPath("$.products[0].id", is(1))).andExpect(jsonPath("$.products[0].name", is("Laptop")));
+	}
+
+	@Test
+	public void testOrderByIdWithNotFoundOrder() throws Exception {
+		when(orderService.getOrderById(1L)).thenReturn(null);
+
+		mvc.perform(get("/api/orders/1").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+				.andExpect(content().string(""));
 	}
 }
