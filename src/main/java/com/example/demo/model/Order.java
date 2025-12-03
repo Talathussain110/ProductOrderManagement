@@ -2,14 +2,33 @@ package com.example.demo.model;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
+import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "orders")
 public class Order {
 
+	@Id
+	@GeneratedValue
 	private Long id;
+
 	private LocalDate orderDate;
+
+	@ManyToMany
+	@JoinTable(name = "order_products", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
 	private Set<Product> products = new HashSet<>();
+
+	public Order() {
+	}
 
 	public Order(Long id, LocalDate orderDate) {
 		this.id = id;

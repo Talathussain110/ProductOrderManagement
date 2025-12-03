@@ -1,9 +1,13 @@
 package com.example.demo.model;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Product {
@@ -13,6 +17,9 @@ public class Product {
 	private Long id;
 	private String name;
 	private double price;
+
+	@ManyToMany(mappedBy = "products")
+	private Set<Order> orders = new HashSet<>();
 
 	public Product(Long id, String name, double price) {
 		this.id = id;
