@@ -14,7 +14,10 @@ public class Product {
 		this.price = price;
 	}
 
-	// Getters and setters
+	public Product() {
+
+	}
+
 	public Long getId() {
 		return id;
 	}

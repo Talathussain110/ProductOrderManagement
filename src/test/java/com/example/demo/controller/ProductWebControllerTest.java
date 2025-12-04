@@ -68,7 +68,7 @@ class ProductWebControllerTest {
 		Product product = new Product(1L, "Laptop", 1500.00);
 		when(productService.getProductById(1L)).thenReturn(product);
 
-		mvc.perform(get("/products/edit/1")).andExpect(view().name("product"))
+		mvc.perform(get("/products/edit/1")).andExpect(view().name("edit_product"))
 				.andExpect(model().attribute("product", product)).andExpect(model().attribute("message", ""));
 	}
 
@@ -76,7 +76,7 @@ class ProductWebControllerTest {
 	void test_EditProduct_WhenProductIsNotFound() throws Exception {
 		when(productService.getProductById(1L)).thenReturn(null);
 
-		mvc.perform(get("/products/edit/1")).andExpect(view().name("product"))
+		mvc.perform(get("/products/edit/1")).andExpect(view().name("edit_product"))
 				.andExpect(model().attribute("product", nullValue()))
 				.andExpect(model().attribute("message", "No product found with id: 1"));
 	}
