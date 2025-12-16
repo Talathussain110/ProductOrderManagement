@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,7 +44,7 @@ public class ProductWebController {
 	public String newProduct(Model model) {
 		model.addAttribute(PRODUCT_ATTRIBUTE, new Product());
 		model.addAttribute(MESSAGE_ATTRIBUTE, "");
-		return "product";
+		return "edit_product";
 	}
 
 	@PostMapping("/save")
@@ -58,9 +57,10 @@ public class ProductWebController {
 		return "redirect:/products";
 	}
 
-	@DeleteMapping("/delete/{id}")
-	public String deleteProduct(@PathVariable long id) {
+	@GetMapping("/delete/{id}")
+	public String deleteProduct(@PathVariable long id, Model model) {
 		productService.deleteProductById(id);
-		return "redirect:/products";
+		model.addAttribute("deletedId", id);
+		return "delete_product";
 	}
 }

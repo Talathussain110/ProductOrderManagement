@@ -1,9 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Product Order Management system</title>
+<meta charset="UTF-8" />
+<title>Orders</title>
+<link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-	<h1>Welcome to Product Order Management System</h1>
+
+	<div class="button-group">
+		<a th:href="@{/orders/new}" class="btn secondary">New order</a> <a
+			th:href="@{/products}" class="btn secondary">All products</a>
+	</div>
+
+	<div th:if="${orders.empty}">
+		<div>No orders found</div>
+	</div>
+
+	<div th:unless="${orders.empty}">
+		<table id="order_table">
+			<caption>Orders</caption>
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Date</th>
+					<th scope="col">Products</th>
+					<th scope="col">Edit</th>
+					<th scope="col">Delete</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="order : ${orders}">
+					<td th:text="${order.id}"></td>
+					<td th:text="${order.orderDate}"></td>
+					<td th:text="${#strings.listJoin(order.products.^[name], ', ')}"></td>
+					<td><a th:href="@{/orders/edit/{id}(id=${order.id})}"
+						class="btn secondary">Edit</a></td>
+					<td><a th:href="@{/orders/delete/{id}(id=${order.id})}"
+						class="btn danger">Delete</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
 </body>
 </html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Edit Order</title>
+<link rel="stylesheet" href="/edit_order.css" />
+</head>
+<body>
+	<div class="container">
+		<h1>Edit Order</h1>
+
+		<div th:unless="${message.empty}" class="message">
+			<span th:text="${message}"></span>
+		</div>
+
+		<div th:if="${message.empty}">
+			<form name="order_record" th:action="@{/orders/save}"
+				th:object="${order}" method="post">
+
+				<input type="hidden" th:field="*{id}" />
+
+				<p>
+					<label>Order Date:</label> <input type="date" name="orderDate"
+						th:value="*{orderDate}" />
+				</p>
+
+				<p>
+					<label>Products:</label>
+				</p>
+
+				<div>
+					<div th:each="p : ${allProducts}">
+						<label> <input type="checkbox" name="products"
+							th:value="${p.id}" /> <span th:text="${p.name}"></span>
+						</label>
+					</div>
+				</div>
+				<button type="submit" name="btn_submit" class="btn primary">Save</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

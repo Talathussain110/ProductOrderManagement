@@ -15,9 +15,9 @@ public class Order {
 		this.id = id;
 		this.orderDate = orderDate;
 	}
-	
+
 	public Order() {
-		
+
 	}
 
 	public Long getId() {

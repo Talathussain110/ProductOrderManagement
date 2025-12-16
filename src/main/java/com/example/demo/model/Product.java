@@ -42,13 +42,11 @@ public class Product {
 		this.price = price;
 	}
 
-	// toString
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", price=" + price + "]";
 	}
 
-	// hashCode and equals
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, name, price);

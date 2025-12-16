@@ -6,11 +6,9 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -64,16 +62,16 @@ class ProductWebControllerTest {
 	}
 
 	@Test
-	void test_EditProduct_WhenProductIsFound() throws Exception {
-		Product product = new Product(1L, "Laptop", 1500.00);
-		when(productService.getProductById(1L)).thenReturn(product);
+	void test_EditProduct_WhenFound() throws Exception {
+		Product p = new Product(1L, "Mouse", 25.50);
+		when(productService.getProductById(1L)).thenReturn(p);
 
 		mvc.perform(get("/products/edit/1")).andExpect(view().name("edit_product"))
-				.andExpect(model().attribute("product", product)).andExpect(model().attribute("message", ""));
+				.andExpect(model().attribute("product", p)).andExpect(model().attribute("message", ""));
 	}
 
 	@Test
-	void test_EditProduct_WhenProductIsNotFound() throws Exception {
+	void test_EditProduct_WhenNotFound() throws Exception {
 		when(productService.getProductById(1L)).thenReturn(null);
 
 		mvc.perform(get("/products/edit/1")).andExpect(view().name("edit_product"))
@@ -83,7 +81,7 @@ class ProductWebControllerTest {
 
 	@Test
 	void test_EditNewProduct() throws Exception {
-		mvc.perform(get("/products/new")).andExpect(view().name("product"))
+		mvc.perform(get("/products/new")).andExpect(view().name("edit_product"))
 				.andExpect(model().attribute("product", new Product())).andExpect(model().attribute("message", ""));
 
 		verifyNoMoreInteractions(productService);
@@ -91,24 +89,24 @@ class ProductWebControllerTest {
 
 	@Test
 	void test_PostProductWithoutId_ShouldInsertNewProduct() throws Exception {
-		mvc.perform(post("/products/save").param("name", "Mouse").param("price", "25.00"))
+		mvc.perform(post("/products/save").param("name", "Keyboard").param("price", "99.99"))
 				.andExpect(view().name("redirect:/products"));
 
-		verify(productService).insertNewProduct(new Product(null, "Mouse", 25.00));
+		verify(productService).insertNewProduct(new Product(null, "Keyboard", 99.99));
 	}
 
 	@Test
 	void test_PostProductWithId_ShouldUpdateExistingProduct() throws Exception {
-		mvc.perform(post("/products/save").param("id", "2").param("name", "Keyboard").param("price", "45.00"))
+		mvc.perform(post("/products/save").param("id", "2").param("name", "Monitor").param("price", "250.00"))
 				.andExpect(view().name("redirect:/products"));
 
-		verify(productService).updateProductById(2L, new Product(2L, "Keyboard", 45.00));
+		verify(productService).updateProductById(2L, new Product(2L, "Monitor", 250.00));
 	}
 
 	@Test
 	void test_DeleteProduct() throws Exception {
-		mvc.perform(delete("/products/delete/3")).andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/products"));
+		mvc.perform(get("/products/delete/3")).andExpect(status().isOk()).andExpect(view().name("delete_product"))
+				.andExpect(model().attribute("deletedId", 3L));
 
 		verify(productService).deleteProductById(3L);
 	}
