@@ -1,31 +1,16 @@
 package com.example.demo.repository;
-
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Repository;
-
+import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.model.Product;
 
-@Repository
-public class ProductRepository {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
-	private static final String TEMPORARY_IMPLEMENTATION = "Temporary implementation";
+	Product findByName(String name);
 
-	public List<Product> findAll() {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
+	List<Product> findByNameAndPrice(String name, double price);
 
-	public Optional<Product> findById(long id) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
+	List<Product> findByNameOrPrice(String name, double price);
 
-	public Product save(Product product) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
+	List<Product> findAllByPriceGreaterThan(double price);
 
-	public void deleteById(long id) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-
-	}
 }

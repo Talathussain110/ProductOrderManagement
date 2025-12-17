@@ -1,12 +1,25 @@
 package com.example.demo.model;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+
+@Entity
 public class Product {
 
+	@Id
+	@GeneratedValue
 	private Long id;
 	private String name;
 	private double price;
+
+	@ManyToMany(mappedBy = "products")
+	private Set<Order> orders = new HashSet<>();
 
 	public Product(Long id, String name, double price) {
 		this.id = id;
@@ -14,7 +27,9 @@ public class Product {
 		this.price = price;
 	}
 
-	// Getters and setters
+	public Product() {
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -39,13 +54,11 @@ public class Product {
 		this.price = price;
 	}
 
-	// toString
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", price=" + price + "]";
 	}
 
-	// hashCode and equals
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, name, price);

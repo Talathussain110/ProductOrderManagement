@@ -1,31 +1,19 @@
 package com.example.demo.repository;
-
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Repository;
-
+import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.model.Order;
 
-@Repository
-public class OrderRepository {
 
-	private static final String TEMPORARY_IMPLEMENTATION = "Temporary implementation";
 
-	public List<Order> findAll() {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
+public interface OrderRepository extends JpaRepository<Order, Long> {
 
-	public Optional<Order> findById(long id) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
+	List<Order> findByOrderDate(LocalDate orderDate);
 
-	public Order save(Order order) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
+	List<Order> findByOrderDateBetween(LocalDate startDate, LocalDate endDate);
 
-	public void deleteById(long id) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+	List<Order> findByProducts_Id(Long productId);
 
-	}
+	List<Order> findByOrderDateBefore(LocalDate date);
+
 }
