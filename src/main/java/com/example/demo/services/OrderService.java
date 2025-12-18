@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,9 @@ public class OrderService {
 		this.orderRepository = orderRepository;
 	}
 
-	public List<Order> getAllOrders() {
-		return orderRepository.findAll();
-	}
-
 	public Order getOrderById(long id) {
-		return orderRepository.findById(id).orElse(null);
+		Optional<Order> order = orderRepository.findById(id);
+		return order.orElse(null);
 	}
 
 	public Order insertNewOrder(Order order) {
@@ -29,13 +27,16 @@ public class OrderService {
 		return orderRepository.save(order);
 	}
 
-	public Order updateOrderById(long id, Order replacement) {
-		replacement.setId(id);
-		return orderRepository.save(replacement);
+	public Order updateOrderById(long id, Order updatedOrder) {
+		updatedOrder.setId(id);
+		return orderRepository.save(updatedOrder);
 	}
 
 	public void deleteOrderById(long id) {
 		orderRepository.deleteById(id);
+	}
 
+	public List<Order> getAllOrders() {
+		return orderRepository.findAll();
 	}
 }

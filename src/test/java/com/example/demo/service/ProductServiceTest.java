@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -13,6 +15,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -115,4 +118,38 @@ class ProductServiceTest {
         assertEquals("Smartphone", products.get(1).getName());
         verify(productRepository, times(1)).findAll();
     }
+    
+    @Test
+    void insertNewProduct_mustNullOutId_beforeCallingSave() {
+        Product input = new Product(88L, "iPhone 12", 999.99);
+        Product saved = new Product(1L, "iPhone 12", 999.99);
+
+        when(productRepository.save(any())).thenReturn(saved);
+
+        Product result = productService.insertNewProduct(input);
+
+        ArgumentCaptor<Product> captor = ArgumentCaptor.forClass(Product.class);
+        verify(productRepository).save(captor.capture());
+
+        assertThat(captor.getValue().getId()).isNull(); 
+        assertThat(result).isSameAs(saved);
+    }
+    
+    @Test
+    void updateProductById_mustSetCorrectId_beforeCallingSave() {
+        Product input = new Product(null, "Samsung Galaxy S21", 799.99);
+        Product saved = new Product(5L, "Samsung Galaxy S21", 799.99);
+
+        when(productRepository.save(any())).thenReturn(saved);
+
+        Product result = productService.updateProductById(5L, input);
+
+        ArgumentCaptor<Product> captor = ArgumentCaptor.forClass(Product.class);
+        verify(productRepository).save(captor.capture());
+
+        assertThat(captor.getValue().getId()).isEqualTo(5L); 
+        assertThat(result).isSameAs(saved);
+    }
+
+
 }
