@@ -25,7 +25,7 @@ class OrderRepositoryTest {
 	private TestEntityManager entityManager;
 
 	@Test
-	public void firstLearningTest() {
+	void firstLearningTest() {
 		Product product = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Order order = new Order(null, LocalDate.of(2025, 1, 10));
 		order.setProducts(Set.of(product));
@@ -36,7 +36,7 @@ class OrderRepositoryTest {
 	}
 
 	@Test
-	public void secondLearningTest() {
+	void secondLearningTest() {
 		Product product = entityManager.persistFlushFind(new Product(null, "Phone", 500.00));
 		Order order = new Order(null, LocalDate.of(2025, 2, 15));
 		order.setProducts(Set.of(product));
@@ -47,7 +47,7 @@ class OrderRepositoryTest {
 	}
 
 	@Test
-	public void testCreateOrder() {
+	void testCreateOrder() {
 		Product product = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Order order = new Order(null, LocalDate.parse("2025-01-10"));
 		order.setProducts(Set.of(product));
@@ -58,7 +58,7 @@ class OrderRepositoryTest {
 	}
 
 	@Test
-	public void testFindById() {
+	void testFindById() {
 		Product product = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Order order = new Order(null, LocalDate.parse("2025-01-10"));
 		order.setProducts(Set.of(product));
@@ -70,7 +70,7 @@ class OrderRepositoryTest {
 	}
 
 	@Test
-	public void testFindAllOrders() {
+	void testFindAllOrders() {
 		Product product1 = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Product product2 = entityManager.persistFlushFind(new Product(null, "Phone", 500.00));
 		Order order1 = new Order(null, LocalDate.parse("2025-01-10"));
@@ -86,7 +86,7 @@ class OrderRepositoryTest {
 	}
 
 	@Test
-	public void testUpdateOrder() {
+	void testUpdateOrder() {
 		Product product = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Order order = new Order(null, LocalDate.parse("2025-01-10"));
 		order.setProducts(Set.of(product));
@@ -102,7 +102,7 @@ class OrderRepositoryTest {
 	}
 
 	@Test
-	public void testDeleteOrder() {
+	void testDeleteOrder() {
 		Product product = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Order order = new Order(null, LocalDate.parse("2025-01-10"));
 		order.setProducts(Set.of(product));

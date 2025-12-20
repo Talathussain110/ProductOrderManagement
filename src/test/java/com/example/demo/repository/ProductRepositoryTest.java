@@ -22,7 +22,7 @@ class ProductRepositoryTest {
 	private TestEntityManager entityManager;
 
 	@Test
-	public void firstLearningTest() {
+	void firstLearningTest() {
 		Product product = new Product(null, "Laptop", 1500.00);
 		Product savedProduct = repository.save(product);
 
@@ -31,7 +31,7 @@ class ProductRepositoryTest {
 	}
 
 	@Test
-	public void secondLearningTest() {
+	void secondLearningTest() {
 		Product product = new Product(null, "Phone", 500.00);
 		Product savedProduct = entityManager.persistFlushFind(product);
 
@@ -40,7 +40,7 @@ class ProductRepositoryTest {
 	}
 
 	@Test
-	public void testCreateProduct() {
+	void testCreateProduct() {
 		Product product = new Product(null, "Laptop", 1500.00);
 		Product saved = repository.save(product);
 
@@ -50,7 +50,7 @@ class ProductRepositoryTest {
 	}
 
 	@Test
-	public void testFindById() {
+	void testFindById() {
 		Product product = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 
 		Optional<Product> found = repository.findById(product.getId());
@@ -59,7 +59,7 @@ class ProductRepositoryTest {
 	}
 
 	@Test
-	public void testFindByName() {
+	void testFindByName() {
 		Product saved = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Product found = repository.findByName("Laptop");
 
@@ -67,9 +67,9 @@ class ProductRepositoryTest {
 	}
 
 	@Test
-	public void testFindByPriceGreaterThan() {
+	void testFindByPriceGreaterThan() {
 		Product p1 = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
-		Product p2 = entityManager.persistFlushFind(new Product(null, "Phone", 500.00));
+		entityManager.persistFlushFind(new Product(null, "Phone", 500.00));
 
 		List<Product> found = repository.findAllByPriceGreaterThan(1000.00);
 
@@ -77,7 +77,7 @@ class ProductRepositoryTest {
 	}
 
 	@Test
-	public void testFindAllProducts() {
+	void testFindAllProducts() {
 		Product p1 = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Product p2 = entityManager.persistFlushFind(new Product(null, "Phone", 500.00));
 
@@ -87,7 +87,7 @@ class ProductRepositoryTest {
 	}
 
 	@Test
-	public void testUpdateProduct() {
+	void testUpdateProduct() {
 		Product product = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 
 		product.setName("Updated Laptop");
@@ -102,7 +102,7 @@ class ProductRepositoryTest {
 	}
 
 	@Test
-	public void testDeleteProduct() {
+	void testDeleteProduct() {
 		Product product = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 
 		repository.deleteById(product.getId());

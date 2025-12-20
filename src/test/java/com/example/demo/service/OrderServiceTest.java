@@ -35,13 +35,13 @@ class OrderServiceTest {
 	private OrderService orderService;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		MockitoAnnotations.openMocks(this);
 		orderService = new OrderService(orderRepository);
 	}
 
 	@Test
-	public void testGetOrderById() {
+	void testGetOrderById() {
 		Order order = new Order(1L, LocalDate.of(2025, 9, 5));
 		when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
 
@@ -54,7 +54,7 @@ class OrderServiceTest {
 	}
 
 	@Test
-	public void testGetOrderByIdNotFound() {
+	void testGetOrderByIdNotFound() {
 		when(orderRepository.findById(1L)).thenReturn(Optional.empty());
 
 		Order result = orderService.getOrderById(1L);
@@ -64,7 +64,7 @@ class OrderServiceTest {
 	}
 
 	@Test
-	public void testInsertNewOrder() {
+	void testInsertNewOrder() {
 		Product product1 = new Product(1L, "Laptop", 1200.0);
 		Product product2 = new Product(2L, "Mouse", 25.0);
 
@@ -89,7 +89,7 @@ class OrderServiceTest {
 	}
 
 	@Test
-	public void testUpdateOrderById() {
+	void testUpdateOrderById() {
 		Product product1 = new Product(1L, "Laptop", 1200.0);
 
 		Order existingOrder = new Order(1L, LocalDate.of(2025, 9, 5));
@@ -111,7 +111,7 @@ class OrderServiceTest {
 	}
 
 	@Test
-	public void testDeleteOrderById() {
+	void testDeleteOrderById() {
 		long id = 1L;
 		doNothing().when(orderRepository).deleteById(id);
 
@@ -121,7 +121,7 @@ class OrderServiceTest {
 	}
 
 	@Test
-	public void testGetAllOrders() {
+	void testGetAllOrders() {
 		Order order1 = new Order(1L, LocalDate.of(2025, 9, 5));
 		Order order2 = new Order(2L, LocalDate.of(2025, 9, 6));
 
