@@ -35,6 +35,6 @@ class OrderJpaTest {
 		assertThat(saved.getId()).isNotNull();
 		assertThat(saved.getId()).isPositive();
 
-		LoggerFactory.getLogger(OrderJpaTest.class).info("Saved Order: " + saved);
+		LoggerFactory.getLogger(OrderJpaTest.class).info("Saved Order: {}" + saved);
 	}
 }

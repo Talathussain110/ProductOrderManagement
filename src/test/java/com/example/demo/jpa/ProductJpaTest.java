@@ -24,7 +24,6 @@ class ProductJpaTest {
 		assertThat(saved.getPrice()).isEqualTo(1500.00);
 		assertThat(saved.getId()).isNotNull();
 		assertThat(saved.getId()).isPositive();
-
-		LoggerFactory.getLogger(ProductJpaTest.class).info("Saved Product: " + saved.toString());
-	}
+	    LoggerFactory.getLogger(ProductJpaTest.class).info("Saved Product: {}", saved);
 }
+	}

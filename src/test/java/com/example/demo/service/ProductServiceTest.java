@@ -31,13 +31,13 @@ class ProductServiceTest {
     private ProductService productService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         productService = new ProductService(productRepository);
     }
 
     @Test
-    public void testGetProductById() {
+    void testGetProductById() {
         Product product = new Product(1L, "Laptop", 1200.0);
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
@@ -51,7 +51,7 @@ class ProductServiceTest {
     }
 
     @Test
-    public void testGetProductByIdNotFound() {
+    void testGetProductByIdNotFound() {
         when(productRepository.findById(1L)).thenReturn(Optional.empty());
 
         Product result = productService.getProductById(1L);
@@ -61,7 +61,7 @@ class ProductServiceTest {
     }
 
     @Test
-    public void testInsertNewProduct() {
+    void testInsertNewProduct() {
         Product product = new Product(null, "Laptop", 1200.0);
         Product savedProduct = new Product(1L, "Laptop", 1200.0);
 
@@ -77,7 +77,7 @@ class ProductServiceTest {
     }
 
     @Test
-    public void testUpdateProduct() {
+    void testUpdateProduct() {
         Product existingProduct = new Product(1L, "Laptop", 1200.0);
         Product updatedProduct = new Product(1L, "Laptop Pro", 1500.0);
 
@@ -94,7 +94,7 @@ class ProductServiceTest {
     }
 
     @Test
-    public void testDeleteProduct() {
+    void testDeleteProduct() {
         long id = 1L;
         doNothing().when(productRepository).deleteById(id);
 
@@ -104,7 +104,7 @@ class ProductServiceTest {
     }
 
     @Test
-    public void testGetAllProducts() {
+    void testGetAllProducts() {
         Product product1 = new Product(1L, "Laptop", 1200.0);
         Product product2 = new Product(2L, "Smartphone", 800.0);
 
