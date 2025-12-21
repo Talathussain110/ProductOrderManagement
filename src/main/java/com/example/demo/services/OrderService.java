@@ -1,5 +1,4 @@
 package com.example.demo.services;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -39,4 +38,5 @@ public class OrderService {
 	public List<Order> getAllOrders() {
 		return orderRepository.findAll();
 	}
+
 }
