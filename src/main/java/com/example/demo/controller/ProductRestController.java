@@ -19,31 +19,34 @@ import com.example.demo.services.ProductService;
 @RequestMapping("/api/products")
 public class ProductRestController {
 
-	@Autowired
-	private ProductService productService;
+	private final ProductService productService;
+
+	public ProductRestController(ProductService productService) {
+		this.productService = productService;
+	}
 
 	@GetMapping
-	public List<Product> allProducts() {
+	List<Product> allProducts() {
 		return productService.getAllProducts();
 	}
 
 	@GetMapping("/{id}")
-	public Product product(@PathVariable long id) {
+	Product product(@PathVariable long id) {
 		return productService.getProductById(id);
 	}
 
 	@PostMapping("/new")
-	public Product newProduct(@RequestBody Product product) {
+	Product newProduct(@RequestBody Product product) {
 		return productService.insertNewProduct(product);
 	}
 
 	@PutMapping("/{id}")
-	public Product updateProduct(@PathVariable long id, @RequestBody Product replacement) {
+	Product updateProduct(@PathVariable long id, @RequestBody Product replacement) {
 		return productService.updateProductById(id, replacement);
 	}
 
 	@DeleteMapping("/{id}")
-	public void deleteProduct(@PathVariable long id) {
+	void deleteProduct(@PathVariable long id) {
 		productService.deleteProductById(id);
 	}
 }
