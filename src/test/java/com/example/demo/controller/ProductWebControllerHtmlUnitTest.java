@@ -16,7 +16,7 @@ import org.htmlunit.html.HtmlTable;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.example.demo.model.Product;
 import com.example.demo.services.ProductService;
@@ -27,7 +27,7 @@ class ProductWebControllerHtmlUnitTest {
 	@Autowired
 	private WebClient webClient;
 
-	@MockBean
+	@MockitoBean
 	private ProductService productService;
 
 	@Test

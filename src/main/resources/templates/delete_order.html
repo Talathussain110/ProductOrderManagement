@@ -12,20 +12,22 @@
 	</div>
 	
 	<div class="container">
-		<h1 th:text="'Order with ID ' + ${deletedId} + ' was deleted.'">Order
-			Deleted</h1>
+		<h1 th:text="'Order with ID ' + ${deletedId} + ' was deleted.'">
+			Order Deleted
+		</h1>
 
 		<div class="button-group">
 
-			<form th:action="@{/orders/new}" method="get"
-				style="display: inline;">
-				<button type="submit" name="btn_new_order" class="btn primary">New
-					order</button>
+			<form th:action="@{/orders/new}" method="get" style="display: inline;">
+				<button type="submit" name="btn_new_order" class="btn primary">
+					New order
+				</button>
 			</form>
 
-			<form th:action="@{/products}" method="get" style="display: inline;">
-				<button type="submit" name="btn_all_orders" class="btn secondary">All
-					orders</button>
+			<form th:action="@{/orders}" method="get" style="display: inline;">
+				<button type="submit" name="btn_all_orders" class="btn secondary">
+					All orders
+				</button>
 			</form>
 
 		</div>
