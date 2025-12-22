@@ -51,19 +51,21 @@ public class OrderWebController {
 
 	@GetMapping("/new")
 	public String newOrder(Model model) {
-		model.addAttribute(ORDER_ATTRIBUTE, new Order());
-		model.addAttribute(MESSAGE_ATTRIBUTE, "");
-		model.addAttribute(ALL_PRODUCTS_ATTRIBUTE, productService.getAllProducts());
-		return "edit_order";
+	    model.addAttribute("order", new Order());
+	    model.addAttribute("allProducts", productService.getAllProducts());
+	    model.addAttribute("message", "");
+	    return "edit_order";
 	}
-
+	
 	@GetMapping("/edit/{id}")
 	public String editOrder(@PathVariable long id, Model model) {
-		Order order = orderService.getOrderById(id);
-		model.addAttribute(ORDER_ATTRIBUTE, order);
-		model.addAttribute(MESSAGE_ATTRIBUTE, order == null ? "No order found with id: " + id : "");
-		model.addAttribute(ALL_PRODUCTS_ATTRIBUTE, productService.getAllProducts());
-		return "edit_order";
+	    Order order = orderService.getOrderById(id);
+
+	    model.addAttribute("order", order);
+	    model.addAttribute("allProducts", productService.getAllProducts());
+	    model.addAttribute("message", order == null ? "No order found with id: " + id : "");
+
+	    return "edit_order";
 	}
 
 	@PostMapping("/save")

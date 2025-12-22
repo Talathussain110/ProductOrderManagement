@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -9,6 +10,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -16,9 +18,11 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -118,5 +122,26 @@ class OrderWebControllerTest {
 				.andExpect(model().attribute("deletedId", 7L));
 
 		verify(orderService).deleteOrderById(7L);
+	}	
+	
+	@Test
+	void saveOrder_withProducts_performsLookupAndSetsRealProducts() throws Exception {
+
+		Product p = new Product(2L, "Laptop", 1500.0);
+		when(productService.getProductById(2L)).thenReturn(p);
+
+		mvc.perform(post("/orders/save").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("orderDate", "2025-06-01").param("products", "2")).andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/orders"));
+
+		ArgumentCaptor<Order> captor = ArgumentCaptor.forClass(Order.class);
+		verify(orderService).insertNewOrder(captor.capture());
+
+		Order saved = captor.getValue();
+
+		assertThat(saved.getOrderDate()).isEqualTo(LocalDate.parse("2025-06-01"));
+		assertThat(saved.getProducts()).hasSize(1).containsExactly(p);
 	}
+
+
 }

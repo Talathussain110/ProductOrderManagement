@@ -6,6 +6,11 @@
 <link rel="stylesheet" href="/edit_order.css" />
 </head>
 <body>
+
+	<div class="header">
+		<img src="/logo.png" alt="Logo" class="logo" />
+	</div>
+
 	<div class="container">
 		<h1>Edit Order</h1>
 
@@ -15,29 +20,56 @@
 
 		<div th:if="${message.empty}">
 			<form name="order_record" th:action="@{/orders/save}"
-				th:object="${order}" method="post">
+				th:object="${order}" method="post" class="form">
 
 				<input type="hidden" th:field="*{id}" />
 
 				<p>
-					<label>Order Date:</label> <input type="date" name="orderDate"
-						th:value="*{orderDate}" />
+					<label for="orderDate">Order Date:</label> <input type="date"
+						id="orderDate" name="orderDate"
+						th:value="${#temporals.format(order.orderDate, 'yyyy-MM-dd')}"
+						required />
 				</p>
 
-				<p>
+				<div id="products-container">
 					<label>Products:</label>
-				</p>
 
-				<div>
-					<div th:each="p : ${allProducts}">
-						<label> <input type="checkbox" name="products"
-							th:value="${p.id}" /> <span th:text="${p.name}"></span>
-						</label>
+					<div class="product-row">
+						<select name="products" class="product-select">
+							<option value="" disabled selected>Select product</option>
+							<option th:each="p : ${allProducts}" th:value="${p.id}"
+								th:text="${p.name}"></option>
+						</select>
 					</div>
 				</div>
-				<button type="submit" name="btn_submit" class="btn primary">Save</button>
+
+				<button type="button" id="add-product-btn" class="btn secondary">
+					+ Add product</button>
+
+				<button type="submit" name="btn_submit" class="btn primary">
+					Save</button>
 			</form>
 		</div>
 	</div>
+
+
+	<script>
+		const addBtn = document.getElementById("add-product-btn");
+
+		if (addBtn) {
+			addBtn.addEventListener("click",
+					function() {
+						const container = document
+								.getElementById("products-container");
+						const firstRow = container
+								.querySelector(".product-row");
+						const newRow = firstRow.cloneNode(true);
+
+						newRow.querySelector("select").selectedIndex = 0;
+						container.appendChild(newRow);
+					});
+		}
+	</script>
+
 </body>
 </html>

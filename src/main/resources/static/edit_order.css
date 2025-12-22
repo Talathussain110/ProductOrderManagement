@@ -1,69 +1,77 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f6f7f9;
-    margin: 0;
-    padding: 0;
+	font-family: Arial, sans-serif;
+	background-color: #f7f9fb;
 }
 
 .container {
-    width: 420px;
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 8px;
-    margin: 50px auto;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+	max-width: 600px;
+	margin: 40px auto;
+	background: white;
+	padding: 25px;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.message {
-    background-color: #ffefef;
-    border-left: 4px solid #d9534f;
-    padding: 10px;
-    margin-bottom: 20px;
-    color: #a94442;
-    font-size: 14px;
-}
-
-.form p {
-    margin-bottom: 15px;
+	margin-bottom: 20px;
+	color: #333;
 }
 
 label {
-    display: block;
-    color: #333;
-    margin-bottom: 5px;
-    font-weight: bold;
+	font-weight: bold;
+	display: block;
+	margin-bottom: 6px;
 }
 
-input[type="date"],
-input[type="text"],
-input[type="number"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #bbb;
-    border-radius: 4px;
-    font-size: 14px;
+input[type="date"], select {
+	width: 100%;
+	padding: 8px;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	margin-bottom: 12px;
+}
+
+select:focus, input:focus {
+	outline: none;
+	border-color: #28a745;
+}
+
+.product-row {
+	margin-bottom: 10px;
 }
 
 .btn {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 15px;
+	padding: 8px 14px;
+	border-radius: 6px;
+	border: none;
+	cursor: pointer;
+	font-weight: bold;
 }
 
 .btn.primary {
-    background-color: #28a745;
-    color: #fff;
-    width: 100%;
+	background-color: #28a745;
+	color: white;
 }
 
-.btn.primary:hover {
-    background-color: #218838;
+.btn.secondary {
+	background-color: #e9ecef;
+	color: #333;
+	margin-bottom: 15px;
+}
+
+.btn.secondary:hover {
+	background-color: #d6d8db;
+}
+
+.message {
+	background-color: #f8d7da;
+	padding: 10px;
+	border-radius: 6px;
+	color: #721c24;
+	margin-bottom: 15px;
+}
+
+.logo {
+    height: 140px;
+    margin-bottom: 10px;
 }
