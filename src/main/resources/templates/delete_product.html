@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Product Deleted</title>
+<link rel="stylesheet" href="/delete_product.css" />
+</head>
+<body>
+
+	<div class="header">
+		<img src="/logo.png" alt="Logo" class="logo" />
+	</div>
+	
+	<div class="container">
+		<h1 th:text="'Product with ID ' + ${deletedId} + ' was deleted.'">
+			Product Deleted</h1>
+
+		<div class="button-group">
+			<form th:action="@{/products/new}" method="get"
+				style="display: inline;">
+				<button type="submit" class="btn primary" name="btn_new_product">New
+					product</button>
+			</form>
+
+			<form th:action="@{/products}" method="get" style="display: inline;">
+				<button type="submit" class="btn secondary" name="btn_all_products">All
+					products</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

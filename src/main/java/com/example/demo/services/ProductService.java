@@ -2,7 +2,6 @@ package com.example.demo.services;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Product;

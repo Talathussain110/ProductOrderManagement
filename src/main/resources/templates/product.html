@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Products</title>
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+	<div class="header">
+		<img src="/logo.png" alt="Logo" class="logo" />
+	</div>
+
+	<div class="button-group">
+		<a th:href="@{/products/new}" class="btn secondary">New product</a> <a
+			th:href="@{/orders}" class="btn secondary">All orders</a>
+	</div>
+
+	<div th:if="${products.empty}">
+		<div>No product</div>
+	</div>
+
+	<div th:unless="${products.empty}">
+		<table id="product_table">
+			<caption>Products</caption>
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Name</th>
+					<th scope="col">Price</th>
+					<th scope="col">Edit</th>
+					<th scope="col">Delete</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="product : ${products}">
+					<td th:text="${product.id}"></td>
+					<td th:text="${product.name}"></td>
+					<td th:text="${product.price}"></td>
+					<td><a th:href="@{/products/edit/{id}(id=${product.id})}"
+						class="btn secondary">Edit</a></td>
+					<td><a th:href="@{/products/delete/{id}(id=${product.id})}"
+						class="btn danger">Delete</a></td>
+				</tr>
+			</tbody>
+
+		</table>
+	</div>
+
+</body>
+</html>
