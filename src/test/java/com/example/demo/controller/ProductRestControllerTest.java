@@ -18,7 +18,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -31,7 +31,7 @@ class ProductRestControllerTest {
 	@Autowired
 	private MockMvc mvc;
 
-	@MockBean
+	@MockitoBean
 	private ProductService productService;
 
 	@Test
@@ -43,7 +43,7 @@ class ProductRestControllerTest {
 	}
 
 	@Test
-	public void testAllProductsNotEmpty() throws Exception {
+	void testAllProductsNotEmpty() throws Exception {
 		Product p1 = new Product(1L, "Laptop", 1500.00);
 		Product p2 = new Product(2L, "Mouse", 25.00);
 
@@ -57,7 +57,7 @@ class ProductRestControllerTest {
 	}
 
 	@Test
-	public void testCreateProduct() throws Exception {
+	void testCreateProduct() throws Exception {
 		Product newProduct = new Product(3L, "Smartphone", 500.00);
 		when(productService.insertNewProduct(any(Product.class))).thenReturn(newProduct);
 
@@ -74,7 +74,7 @@ class ProductRestControllerTest {
 	}
 
 	@Test
-	public void testUpdateProductExisting() throws Exception {
+	void testUpdateProductExisting() throws Exception {
 		Product updatedProduct = new Product(1L, "Laptop Pro", 1700.00);
 		when(productService.updateProductById(anyLong(), any(Product.class))).thenReturn(updatedProduct);
 
@@ -91,7 +91,7 @@ class ProductRestControllerTest {
 	}
 
 	@Test
-	public void testUpdateProductNotFound() throws Exception {
+	void testUpdateProductNotFound() throws Exception {
 		when(productService.updateProductById(anyLong(), any(Product.class))).thenReturn(null);
 
 		String updateProductJson = """
@@ -106,7 +106,7 @@ class ProductRestControllerTest {
 	}
 
 	@Test
-	public void testDeleteProduct() throws Exception {
+	void testDeleteProduct() throws Exception {
 		doNothing().when(productService).deleteProductById(anyLong());
 
 		mvc.perform(delete("/api/products/1")).andExpect(status().isOk()).andExpect(content().string(""));

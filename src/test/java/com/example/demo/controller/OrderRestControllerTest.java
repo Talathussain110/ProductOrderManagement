@@ -20,7 +20,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,12 +33,13 @@ class OrderRestControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
-
-	@MockBean
+	
+	
+	@MockitoBean
 	private OrderService orderService;
 
 	@Test
-	public void testAllOrdersEmpty() throws Exception {
+	void testAllOrdersEmpty() throws Exception {
 		when(orderService.getAllOrders()).thenReturn(List.of());
 
 		mvc.perform(get("/api/orders").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
@@ -46,7 +47,7 @@ class OrderRestControllerTest {
 	}
 
 	@Test
-	public void testAllOrdersNotEmpty() throws Exception {
+	void testAllOrdersNotEmpty() throws Exception {
 		Product p1 = new Product(1L, "Laptop", 1500.00);
 		Product p2 = new Product(2L, "Mouse", 25.00);
 
@@ -68,7 +69,7 @@ class OrderRestControllerTest {
 	}
 
 	@Test
-	public void testCreateOrder() throws Exception {
+	void testCreateOrder() throws Exception {
 		Product p1 = new Product(1L, "Laptop", 1500.00);
 		Order newOrder = new Order(3L, LocalDate.parse("2025-08-10"));
 		newOrder.setProducts(Set.of(p1));
@@ -88,7 +89,7 @@ class OrderRestControllerTest {
 	}
 
 	@Test
-	public void testUpdateOrderExisting() throws Exception {
+	void testUpdateOrderExisting() throws Exception {
 		Product p1 = new Product(1L, "Laptop", 1500.00);
 		Order updatedOrder = new Order(1L, LocalDate.parse("2025-06-20"));
 		updatedOrder.setProducts(Set.of(p1));
@@ -108,7 +109,7 @@ class OrderRestControllerTest {
 	}
 
 	@Test
-	public void testUpdateOrderNotFound() throws Exception {
+	void testUpdateOrderNotFound() throws Exception {
 		when(orderService.updateOrderById(anyLong(), any(Order.class))).thenReturn(null);
 
 		String updateOrderJson = """
@@ -123,7 +124,7 @@ class OrderRestControllerTest {
 	}
 
 	@Test
-	public void testDeleteOrder() throws Exception {
+	void testDeleteOrder() throws Exception {
 		doNothing().when(orderService).deleteOrderById(anyLong());
 
 		mvc.perform(delete("/api/orders/1")).andExpect(status().isOk()).andExpect(content().string(""));

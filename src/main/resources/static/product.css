@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 20px;
+}
+
+.button-group {
+    margin-bottom: 20px;
+}
+
+.button-group .btn {
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    color: white;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.btn.secondary {
+    background-color: #28a745;
+}
+
+.btn.secondary:hover {
+    background-color: #23913d;
+}
+
+.btn.danger {
+    background-color: #dc3545;
+}
+
+.btn.danger:hover {
+    background-color: #bb2d3b;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+caption {
+    background-color: #28a745;
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+th, td {
+    padding: 14px 18px;
+    text-align: left;
+}
+
+th {
+    background-color: #e9ecef;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+tr:hover {
+    background-color: #eef7ee;
+}
+
+.message-box {
+    background-color: #fff3cd;
+    padding: 15px;
+    border-left: 5px solid #ffdf7e;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.logo {
+    height: 140px;
+    margin-bottom: 10px;
+}

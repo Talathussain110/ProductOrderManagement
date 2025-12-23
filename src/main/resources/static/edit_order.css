@@ -1,0 +1,77 @@
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f7f9fb;
+}
+
+.container {
+	max-width: 600px;
+	margin: 40px auto;
+	background: white;
+	padding: 25px;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+	margin-bottom: 20px;
+	color: #333;
+}
+
+label {
+	font-weight: bold;
+	display: block;
+	margin-bottom: 6px;
+}
+
+input[type="date"], select {
+	width: 100%;
+	padding: 8px;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	margin-bottom: 12px;
+}
+
+select:focus, input:focus {
+	outline: none;
+	border-color: #28a745;
+}
+
+.product-row {
+	margin-bottom: 10px;
+}
+
+.btn {
+	padding: 8px 14px;
+	border-radius: 6px;
+	border: none;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.btn.primary {
+	background-color: #28a745;
+	color: white;
+}
+
+.btn.secondary {
+	background-color: #e9ecef;
+	color: #333;
+	margin-bottom: 15px;
+}
+
+.btn.secondary:hover {
+	background-color: #d6d8db;
+}
+
+.message {
+	background-color: #f8d7da;
+	padding: 10px;
+	border-radius: 6px;
+	color: #721c24;
+	margin-bottom: 15px;
+}
+
+.logo {
+    height: 140px;
+    margin-bottom: 10px;
+}
