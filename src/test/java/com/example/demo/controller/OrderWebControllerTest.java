@@ -15,7 +15,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.HashSet;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -59,7 +60,8 @@ class OrderWebControllerTest {
 		Product p2 = new Product(2L, "Mouse", 20.0);
 
 		Order o = new Order(1L, LocalDate.parse("2025-08-10"));
-		o.setProducts(Set.of(p1, p2));
+		// o.setProducts(Set.of(p1, p2));
+		o.setProducts(new HashSet<>(List.of(p1, p2)));
 
 		when(orderService.getAllOrders()).thenReturn(asList(o));
 
@@ -122,8 +124,8 @@ class OrderWebControllerTest {
 				.andExpect(model().attribute("deletedId", 7L));
 
 		verify(orderService).deleteOrderById(7L);
-	}	
-	
+	}
+
 	@Test
 	void saveOrder_withProducts_performsLookupAndSetsRealProducts() throws Exception {
 
@@ -142,6 +144,5 @@ class OrderWebControllerTest {
 		assertThat(saved.getOrderDate()).isEqualTo(LocalDate.parse("2025-06-01"));
 		assertThat(saved.getProducts()).hasSize(1).containsExactly(p);
 	}
-
 
 }

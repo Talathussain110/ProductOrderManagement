@@ -1,0 +1,11 @@
+services:
+  mysql-productorder:
+    image: mysql:8.0
+    container_name: mysql-productorder
+    environment:
+      MYSQL_DATABASE: productorder_management
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3307:3306"

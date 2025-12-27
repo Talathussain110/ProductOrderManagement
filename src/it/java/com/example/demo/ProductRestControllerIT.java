@@ -30,8 +30,8 @@ class ProductRestControllerIT {
 
 	@SuppressWarnings("resource")
 	@Container
-	static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0").withDatabaseName("testdb")
-			.withUsername("testuser").withPassword("testpass");
+	static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0").withDatabaseName("productorder_management")
+			.withUsername("admin").withPassword("pass");
 
 	@DynamicPropertySource
 	static void overrideProps(DynamicPropertyRegistry registry) {
@@ -39,6 +39,7 @@ class ProductRestControllerIT {
 		registry.add("spring.datasource.username", mysql::getUsername);
 		registry.add("spring.datasource.password", mysql::getPassword);
 		registry.add("spring.jpa.hibernate.ddl-auto", () -> "update");
+		registry.add("spring.jpa.show-sql", () -> "true");
 	}
 
 	@Autowired

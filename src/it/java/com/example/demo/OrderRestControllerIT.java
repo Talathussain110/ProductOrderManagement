@@ -4,7 +4,8 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.HashSet;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,8 +36,8 @@ class OrderRestControllerIT {
 
 	@SuppressWarnings("resource")
 	@Container
-	static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0").withDatabaseName("testdb")
-			.withUsername("testuser").withPassword("testpass");
+	static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0").withDatabaseName("productorder_management")
+			.withUsername("admin").withPassword("pass");
 
 	@DynamicPropertySource
 	static void overrideProps(DynamicPropertyRegistry registry) {
@@ -70,7 +71,8 @@ class OrderRestControllerIT {
 		Product p2 = productRepository.save(new Product(null, "Mouse", 25.0));
 
 		Order order = new Order(null, LocalDate.of(2025, 1, 10));
-		order.setProducts(Set.of(p1, p2));
+		// order.setProducts(Set.of(p1, p2));
+		order.setProducts(new HashSet<>(List.of(p1, p2)));
 
 		Response response = given().contentType(MediaType.APPLICATION_JSON_VALUE).body(order).when()
 				.post("/api/orders/new");
@@ -87,7 +89,8 @@ class OrderRestControllerIT {
 		Product p1 = productRepository.save(new Product(null, "Phone", 500.0));
 
 		Order saved = new Order(null, LocalDate.of(2025, 2, 15));
-		saved.setProducts(Set.of(p1));
+		// saved.setProducts(Set.of(p1));
+		saved.setProducts(new HashSet<>(List.of(p1)));
 		saved = orderRepository.save(saved);
 
 		Order fetched = given().when().get("/api/orders/" + saved.getId()).then().statusCode(200).extract()
@@ -103,11 +106,13 @@ class OrderRestControllerIT {
 		Product p2 = productRepository.save(new Product(null, "Monitor", 200.0));
 
 		Order saved = new Order(null, LocalDate.of(2025, 3, 1));
-		saved.setProducts(Set.of(p1));
+		// saved.setProducts(Set.of(p1));
+		saved.setProducts(new HashSet<>(List.of(p1)));
 		saved = orderRepository.save(saved);
 
 		Order updated = new Order(null, LocalDate.of(2025, 3, 2));
-		updated.setProducts(Set.of(p1, p2));
+		// updated.setProducts(Set.of(p1, p2));
+		updated.setProducts(new HashSet<>(List.of(p1, p2)));
 
 		Order result = given().contentType(MediaType.APPLICATION_JSON_VALUE).body(updated).when()
 				.put("/api/orders/" + saved.getId()).then().statusCode(200).extract().as(Order.class);
@@ -120,7 +125,8 @@ class OrderRestControllerIT {
 		Product p1 = productRepository.save(new Product(null, "To Delete Product", 1.0));
 
 		Order saved = new Order(null, LocalDate.of(2025, 4, 1));
-		saved.setProducts(Set.of(p1));
+		// saved.setProducts(Set.of(p1));
+		saved.setProducts(new HashSet<>(List.of(p1)));
 		saved = orderRepository.save(saved);
 
 		given().when().delete("/api/orders/" + saved.getId()).then().statusCode(200);

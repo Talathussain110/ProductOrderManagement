@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,8 +31,13 @@ public class OrderRestController {
 	}
 
 	@GetMapping("/{id}")
-	Order order(@PathVariable long id) {
-		return orderService.getOrderById(id);
+	public ResponseEntity<Order> order(@PathVariable long id) {
+		Order order = orderService.getOrderById(id);
+		if (order != null) {
+			return ResponseEntity.ok(order);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@PostMapping("/new")
@@ -45,7 +51,9 @@ public class OrderRestController {
 	}
 
 	@DeleteMapping("/{id}")
-	void deleteOrder(@PathVariable long id) {
-		orderService.deleteOrderById(id);
+	public ResponseEntity<Void> deleteOrder(@PathVariable long id) {
+		boolean deleted = orderService.deleteOrderById(id);
+		return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
+
 }

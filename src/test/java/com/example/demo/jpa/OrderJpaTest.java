@@ -3,7 +3,8 @@ package com.example.demo.jpa;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.HashSet;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,8 @@ class OrderJpaTest {
 		Product product2 = entityManager.persistFlushFind(new Product(null, "Mouse", 25.00));
 
 		Order order = new Order(null, LocalDate.of(2025, 6, 20));
-		order.setProducts(Set.of(product, product2));
+		//order.setProducts(Set.of(product, product2));
+		order.setProducts(new HashSet<>(List.of(product, product2)));
 
 		Order saved = entityManager.persistFlushFind(order);
 

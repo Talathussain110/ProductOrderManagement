@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -14,8 +14,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +33,7 @@ class OrderRestControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
-	
-	
+
 	@MockitoBean
 	private OrderService orderService;
 
@@ -52,10 +51,12 @@ class OrderRestControllerTest {
 		Product p2 = new Product(2L, "Mouse", 25.00);
 
 		Order o1 = new Order(1L, LocalDate.parse("2025-01-10"));
-		o1.setProducts(Set.of(p1, p2));
+		// o1.setProducts(Set.of(p1, p2));
+		o1.setProducts(new HashSet<>(List.of(p1, p2)));
 
 		Order o2 = new Order(2L, LocalDate.parse("2025-02-15"));
-		o2.setProducts(Set.of(p2));
+		// o2.setProducts(Set.of(p2));
+		o2.setProducts(new HashSet<>(List.of(p2)));
 
 		when(orderService.getAllOrders()).thenReturn(List.of(o1, o2));
 
@@ -72,7 +73,8 @@ class OrderRestControllerTest {
 	void testCreateOrder() throws Exception {
 		Product p1 = new Product(1L, "Laptop", 1500.00);
 		Order newOrder = new Order(3L, LocalDate.parse("2025-08-10"));
-		newOrder.setProducts(Set.of(p1));
+		// newOrder.setProducts(Set.of(p1));
+		newOrder.setProducts(new HashSet<>(List.of(p1)));
 
 		when(orderService.insertNewOrder(any(Order.class))).thenReturn(newOrder);
 
@@ -92,7 +94,8 @@ class OrderRestControllerTest {
 	void testUpdateOrderExisting() throws Exception {
 		Product p1 = new Product(1L, "Laptop", 1500.00);
 		Order updatedOrder = new Order(1L, LocalDate.parse("2025-06-20"));
-		updatedOrder.setProducts(Set.of(p1));
+		// updatedOrder.setProducts(Set.of(p1));
+		updatedOrder.setProducts(new HashSet<>(List.of(p1)));
 
 		when(orderService.updateOrderById(anyLong(), any(Order.class))).thenReturn(updatedOrder);
 
@@ -125,8 +128,11 @@ class OrderRestControllerTest {
 
 	@Test
 	void testDeleteOrder() throws Exception {
-		doNothing().when(orderService).deleteOrderById(anyLong());
+		when(orderService.deleteOrderById(anyLong())).thenReturn(true);
 
 		mvc.perform(delete("/api/orders/1")).andExpect(status().isOk()).andExpect(content().string(""));
+
+		verify(orderService).deleteOrderById(1L);
 	}
+
 }

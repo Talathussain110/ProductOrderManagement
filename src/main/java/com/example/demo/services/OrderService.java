@@ -30,8 +30,14 @@ public class OrderService {
 		return orderRepository.save(updatedOrder);
 	}
 
-	public void deleteOrderById(long id) {
-		orderRepository.deleteById(id);
+	public boolean deleteOrderById(long id) {
+		Optional<Order> existing = orderRepository.findById(id);
+		if (existing.isPresent()) {
+			orderRepository.deleteById(id);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public List<Order> getAllOrders() {

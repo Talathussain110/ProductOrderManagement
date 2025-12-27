@@ -1,11 +1,11 @@
 package com.example.demo.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -113,11 +113,15 @@ class OrderServiceTest {
 	@Test
 	void testDeleteOrderById() {
 		long id = 1L;
-		doNothing().when(orderRepository).deleteById(id);
 
-		orderService.deleteOrderById(id);
+		Order order = new Order();
+		order.setId(id);
+		when(orderRepository.findById(id)).thenReturn(Optional.of(order));
+
+		boolean result = orderService.deleteOrderById(id);
 
 		verify(orderRepository, times(1)).deleteById(id);
+		assertTrue(result);
 	}
 
 	@Test
