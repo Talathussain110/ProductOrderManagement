@@ -26,9 +26,7 @@ import com.example.demo.services.ProductService;
 public class OrderWebController {
 
 	private static final String MESSAGE_ATTRIBUTE = "message";
-	private static final String ORDER_ATTRIBUTE = "order";
 	private static final String ORDERS_ATTRIBUTE = "orders";
-	private static final String ALL_PRODUCTS_ATTRIBUTE = "allProducts";
 
 	@Autowired
 	private OrderService orderService;
@@ -51,21 +49,21 @@ public class OrderWebController {
 
 	@GetMapping("/new")
 	public String newOrder(Model model) {
-	    model.addAttribute("order", new Order());
-	    model.addAttribute("allProducts", productService.getAllProducts());
-	    model.addAttribute("message", "");
-	    return "edit_order";
+		model.addAttribute("order", new Order());
+		model.addAttribute("allProducts", productService.getAllProducts());
+		model.addAttribute("message", "");
+		return "edit_order";
 	}
-	
+
 	@GetMapping("/edit/{id}")
 	public String editOrder(@PathVariable long id, Model model) {
-	    Order order = orderService.getOrderById(id);
+		Order order = orderService.getOrderById(id);
 
-	    model.addAttribute("order", order);
-	    model.addAttribute("allProducts", productService.getAllProducts());
-	    model.addAttribute("message", order == null ? "No order found with id: " + id : "");
+		model.addAttribute("order", order);
+		model.addAttribute("allProducts", productService.getAllProducts());
+		model.addAttribute("message", order == null ? "No order found with id: " + id : "");
 
-	    return "edit_order";
+		return "edit_order";
 	}
 
 	@PostMapping("/save")

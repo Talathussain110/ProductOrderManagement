@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -26,8 +27,8 @@ class ProductServiceRepositoryIT {
 
 	@SuppressWarnings("resource")
 	@Container
-	static final MySQLContainer<?> MYSQL_CONTAINER = new MySQLContainer<>("mysql:8.0").withDatabaseName("testdb")
-			.withUsername("testuser").withPassword("testpass");
+	static final MySQLContainer<?> MYSQL_CONTAINER = new MySQLContainer<>("mysql:8.0")
+			.withDatabaseName("productorder_management").withUsername("admin").withPassword("pass");
 
 	@DynamicPropertySource
 	static void overrideProps(DynamicPropertyRegistry registry) {
@@ -35,6 +36,7 @@ class ProductServiceRepositoryIT {
 		registry.add("spring.datasource.username", MYSQL_CONTAINER::getUsername);
 		registry.add("spring.datasource.password", MYSQL_CONTAINER::getPassword);
 		registry.add("spring.jpa.hibernate.ddl-auto", () -> "update");
+		registry.add("spring.jpa.show-sql", () -> "true");
 	}
 
 	@Autowired
@@ -42,6 +44,17 @@ class ProductServiceRepositoryIT {
 
 	@Autowired
 	private ProductRepository productRepository;
+
+	public Product defaultProduct;
+
+	@BeforeEach
+	void setup() {
+		productRepository.deleteAll();
+		productRepository.deleteAll();
+		productRepository.flush();
+		productRepository.flush();
+		defaultProduct = productRepository.save(new Product(null, "Laptop", 1200.0));
+	}
 
 	@Test
 	void testInsertNewProduct() {

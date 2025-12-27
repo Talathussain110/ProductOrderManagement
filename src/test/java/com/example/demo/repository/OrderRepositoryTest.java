@@ -3,6 +3,7 @@ package com.example.demo.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -17,7 +18,7 @@ import com.example.demo.model.Product;
 
 @DataJpaTest
 class OrderRepositoryTest {
-
+	
 	@Autowired
 	private OrderRepository repository;
 
@@ -74,9 +75,9 @@ class OrderRepositoryTest {
 		Product product1 = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Product product2 = entityManager.persistFlushFind(new Product(null, "Phone", 500.00));
 		Order order1 = new Order(null, LocalDate.parse("2025-01-10"));
-		order1.setProducts(Set.of(product1));
+		order1.setProducts(new HashSet<>(List.of(product1)));
 		Order order2 = new Order(null, LocalDate.parse("2025-02-15"));
-		order2.setProducts(Set.of(product2));
+		order2.setProducts(new HashSet<>(List.of(product2)));
 		entityManager.persistFlushFind(order1);
 		entityManager.persistFlushFind(order2);
 
@@ -89,7 +90,7 @@ class OrderRepositoryTest {
 	void testUpdateOrder() {
 		Product product = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Order order = new Order(null, LocalDate.parse("2025-01-10"));
-		order.setProducts(Set.of(product));
+		order.setProducts(new HashSet<>(List.of(product)));
 		Order saved = entityManager.persistFlushFind(order);
 
 		saved.setOrderDate(LocalDate.parse("2025-02-15"));
@@ -105,7 +106,7 @@ class OrderRepositoryTest {
 	void testDeleteOrder() {
 		Product product = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Order order = new Order(null, LocalDate.parse("2025-01-10"));
-		order.setProducts(Set.of(product));
+		order.setProducts(new HashSet<>(List.of(product, product)));
 		Order saved = entityManager.persistFlushFind(order);
 
 		repository.deleteById(saved.getId());

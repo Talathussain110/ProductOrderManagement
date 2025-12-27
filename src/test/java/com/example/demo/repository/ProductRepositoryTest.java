@@ -14,7 +14,7 @@ import com.example.demo.model.Product;
 
 @DataJpaTest
 class ProductRepositoryTest {
-
+	
 	@Autowired
 	private ProductRepository repository;
 

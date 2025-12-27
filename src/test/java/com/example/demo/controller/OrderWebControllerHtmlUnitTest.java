@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.time.LocalDate;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-
 
 import com.example.demo.model.Order;
 import com.example.demo.model.Product;
@@ -104,13 +102,13 @@ class OrderWebControllerHtmlUnitTest {
 
 		form.getInputByName("orderDate").setValueAttribute("2025-09-09");
 		form.getButtonByName("btn_submit").click();
-		
+
 		verify(orderService).insertNewOrder(new Order(null, LocalDate.parse("2025-09-09")));
 	}
 
 	@Test
 	void testDeleteOrder_MessageShown() throws Exception {
-		doNothing().when(orderService).deleteOrderById(4L);
+		when(orderService.deleteOrderById(4L)).thenReturn(true);
 
 		HtmlPage page = webClient.getPage("/orders/delete/4");
 

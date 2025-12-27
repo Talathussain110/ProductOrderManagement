@@ -3,9 +3,10 @@ package com.example.demo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -30,8 +31,8 @@ class OrderServiceRepositoryIT {
 
 	@SuppressWarnings("resource")
 	@Container
-	static final MySQLContainer<?> MYSQL_CONTAINER = new MySQLContainer<>("mysql:8.0").withDatabaseName("testdb")
-			.withUsername("testuser").withPassword("testpass");
+	static final MySQLContainer<?> MYSQL_CONTAINER = new MySQLContainer<>("mysql:8.0")
+			.withDatabaseName("productorder_management").withUsername("admin").withPassword("pass");
 
 	@DynamicPropertySource
 	static void overrideProps(DynamicPropertyRegistry registry) {
@@ -39,6 +40,7 @@ class OrderServiceRepositoryIT {
 		registry.add("spring.datasource.username", MYSQL_CONTAINER::getUsername);
 		registry.add("spring.datasource.password", MYSQL_CONTAINER::getPassword);
 		registry.add("spring.jpa.hibernate.ddl-auto", () -> "update");
+		registry.add("spring.jpa.show-sql", () -> "true");
 	}
 
 	@Autowired
@@ -50,15 +52,24 @@ class OrderServiceRepositoryIT {
 	@Autowired
 	private ProductRepository productRepository;
 
+	@BeforeEach
+	void setup() {
+		orderRepository.deleteAll();
+		productRepository.deleteAll();
+
+		orderRepository.flush();
+		productRepository.flush();
+	}
+
 	@Test
 	void testInsertNewOrder() {
-		Product product1 = new Product(null, "Laptop", 1200.0);
-		Product product2 = new Product(null, "Mouse", 25.0);
-		productRepository.save(product1);
-		productRepository.save(product2);
+		Product product1 = productRepository.save(new Product(null, "Laptop", 1200.0));
+		Product product2 = productRepository.save(new Product(null, "Mouse", 25.0));
+		productRepository.flush();
 
 		Order order = new Order(null, LocalDate.of(2025, 9, 5));
-		order.setProducts(Set.of(product1, product2));
+		order.setProducts(new HashSet<>(List.of(product1, product2)));
+
 		Order savedOrder = orderService.insertNewOrder(order);
 
 		assertThat(savedOrder.getId()).isNotNull();
@@ -68,33 +79,33 @@ class OrderServiceRepositoryIT {
 
 	@Test
 	void testGetAllOrders() {
-		productRepository.deleteAll();
-
-		Product product1 = new Product(null, "Laptop", 1200.0);
-		Product product2 = new Product(null, "Mouse", 25.0);
-		productRepository.save(product1);
-		productRepository.save(product2);
+		Product product1 = productRepository.save(new Product(null, "Laptop", 1200.0));
+		Product product2 = productRepository.save(new Product(null, "Mouse", 25.0));
+		productRepository.flush();
 
 		Order order1 = new Order(null, LocalDate.of(2025, 9, 5));
-		order1.setProducts(Set.of(product1));
+		order1.setProducts(new HashSet<>(List.of(product1)));
+
 		Order order2 = new Order(null, LocalDate.of(2025, 9, 6));
-		order2.setProducts(Set.of(product2));
+		order2.setProducts(new HashSet<>(List.of(product2)));
 
 		orderService.insertNewOrder(order1);
 		orderService.insertNewOrder(order2);
 
 		List<Order> allOrders = orderService.getAllOrders();
+
 		assertThat(allOrders).hasSize(2).extracting(Order::getOrderDate)
 				.containsExactlyInAnyOrder(LocalDate.of(2025, 9, 5), LocalDate.of(2025, 9, 6));
 	}
 
 	@Test
 	void testUpdateOrderById() {
-		Product product1 = new Product(null, "Laptop", 1200.0);
-		productRepository.save(product1);
+		Product product = productRepository.save(new Product(null, "Laptop", 1200.0));
+		productRepository.flush();
 
 		Order order = new Order(null, LocalDate.of(2025, 9, 5));
-		order.setProducts(Set.of(product1));
+		order.setProducts(new HashSet<>(List.of(product)));
+
 		Order savedOrder = orderService.insertNewOrder(order);
 		savedOrder.setOrderDate(LocalDate.of(2025, 9, 6));
 
@@ -107,11 +118,12 @@ class OrderServiceRepositoryIT {
 
 	@Test
 	void testDeleteOrderById() {
-		Product product1 = new Product(null, "Laptop", 1200.0);
-		productRepository.save(product1);
+		Product product = productRepository.save(new Product(null, "Laptop", 1200.0));
+		productRepository.flush();
 
 		Order order = new Order(null, LocalDate.of(2025, 9, 5));
-		order.setProducts(Set.of(product1));
+		order.setProducts(new HashSet<>(List.of(product)));
+
 		Order savedOrder = orderService.insertNewOrder(order);
 
 		orderService.deleteOrderById(savedOrder.getId());
