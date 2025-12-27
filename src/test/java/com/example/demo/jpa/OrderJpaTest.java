@@ -27,7 +27,6 @@ class OrderJpaTest {
 		Product product2 = entityManager.persistFlushFind(new Product(null, "Mouse", 25.00));
 
 		Order order = new Order(null, LocalDate.of(2025, 6, 20));
-		//order.setProducts(Set.of(product, product2));
 		order.setProducts(new HashSet<>(List.of(product, product2)));
 
 		Order saved = entityManager.persistFlushFind(order);

@@ -60,7 +60,6 @@ class OrderWebControllerTest {
 		Product p2 = new Product(2L, "Mouse", 20.0);
 
 		Order o = new Order(1L, LocalDate.parse("2025-08-10"));
-		// o.setProducts(Set.of(p1, p2));
 		o.setProducts(new HashSet<>(List.of(p1, p2)));
 
 		when(orderService.getAllOrders()).thenReturn(asList(o));

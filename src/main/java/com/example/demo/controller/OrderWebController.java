@@ -26,9 +26,7 @@ import com.example.demo.services.ProductService;
 public class OrderWebController {
 
 	private static final String MESSAGE_ATTRIBUTE = "message";
-	// private static final String ORDER_ATTRIBUTE = "order";
 	private static final String ORDERS_ATTRIBUTE = "orders";
-	// private static final String ALL_PRODUCTS_ATTRIBUTE = "allProducts";
 
 	@Autowired
 	private OrderService orderService;

@@ -75,10 +75,8 @@ class OrderRepositoryTest {
 		Product product1 = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Product product2 = entityManager.persistFlushFind(new Product(null, "Phone", 500.00));
 		Order order1 = new Order(null, LocalDate.parse("2025-01-10"));
-		//order1.setProducts(Set.of(product1));
 		order1.setProducts(new HashSet<>(List.of(product1)));
 		Order order2 = new Order(null, LocalDate.parse("2025-02-15"));
-		//order2.setProducts(Set.of(product2));
 		order2.setProducts(new HashSet<>(List.of(product2)));
 		entityManager.persistFlushFind(order1);
 		entityManager.persistFlushFind(order2);
@@ -92,7 +90,6 @@ class OrderRepositoryTest {
 	void testUpdateOrder() {
 		Product product = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Order order = new Order(null, LocalDate.parse("2025-01-10"));
-		//order.setProducts(Set.of(product));
 		order.setProducts(new HashSet<>(List.of(product)));
 		Order saved = entityManager.persistFlushFind(order);
 
@@ -109,7 +106,6 @@ class OrderRepositoryTest {
 	void testDeleteOrder() {
 		Product product = entityManager.persistFlushFind(new Product(null, "Laptop", 1500.00));
 		Order order = new Order(null, LocalDate.parse("2025-01-10"));
-		//order.setProducts(Set.of(product));
 		order.setProducts(new HashSet<>(List.of(product, product)));
 		Order saved = entityManager.persistFlushFind(order);
 

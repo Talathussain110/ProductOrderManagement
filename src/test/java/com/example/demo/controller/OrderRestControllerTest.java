@@ -51,11 +51,9 @@ class OrderRestControllerTest {
 		Product p2 = new Product(2L, "Mouse", 25.00);
 
 		Order o1 = new Order(1L, LocalDate.parse("2025-01-10"));
-		// o1.setProducts(Set.of(p1, p2));
 		o1.setProducts(new HashSet<>(List.of(p1, p2)));
 
 		Order o2 = new Order(2L, LocalDate.parse("2025-02-15"));
-		// o2.setProducts(Set.of(p2));
 		o2.setProducts(new HashSet<>(List.of(p2)));
 
 		when(orderService.getAllOrders()).thenReturn(List.of(o1, o2));
@@ -73,7 +71,6 @@ class OrderRestControllerTest {
 	void testCreateOrder() throws Exception {
 		Product p1 = new Product(1L, "Laptop", 1500.00);
 		Order newOrder = new Order(3L, LocalDate.parse("2025-08-10"));
-		// newOrder.setProducts(Set.of(p1));
 		newOrder.setProducts(new HashSet<>(List.of(p1)));
 
 		when(orderService.insertNewOrder(any(Order.class))).thenReturn(newOrder);
@@ -94,7 +91,6 @@ class OrderRestControllerTest {
 	void testUpdateOrderExisting() throws Exception {
 		Product p1 = new Product(1L, "Laptop", 1500.00);
 		Order updatedOrder = new Order(1L, LocalDate.parse("2025-06-20"));
-		// updatedOrder.setProducts(Set.of(p1));
 		updatedOrder.setProducts(new HashSet<>(List.of(p1)));
 
 		when(orderService.updateOrderById(anyLong(), any(Order.class))).thenReturn(updatedOrder);
