@@ -48,13 +48,14 @@ h1 {
 }
 
 .btn.secondary {
-    background-color: #17a2b8;
+    background-color: #138496;
     color: white;
 }
 
 .btn.secondary:hover {
-    background-color: #138496;
+    background-color: #117a8b;
 }
+
 
 button {
     border: none;
