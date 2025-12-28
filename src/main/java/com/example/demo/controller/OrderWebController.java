@@ -66,7 +66,7 @@ public class OrderWebController {
 	    model.addAttribute(ORDER_ATTRIBUTE, order);
 	    model.addAttribute(ALL_PRODUCTS_ATTRIBUTE, productService.getAllProducts());
 	    model.addAttribute(MESSAGE_ATTRIBUTE, order == null ? "No order found with id: " + id : "");
-	    model.addAttribute("pageTitle", order == null ? "Edit Order" : "Edit Order");
+	    model.addAttribute("pageTitle", "New Order");
 
 	    return "edit_order";
 	}
