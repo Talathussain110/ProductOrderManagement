@@ -16,8 +16,7 @@ public class OrderService {
 	}
 
 	public Order getOrderById(long id) {
-		Optional<Order> order = orderRepository.findById(id);
-		return order.orElse(null);
+		return orderRepository.findById(id).orElse(null);
 	}
 
 	public Order insertNewOrder(Order order) {
@@ -35,9 +34,8 @@ public class OrderService {
 		if (existing.isPresent()) {
 			orderRepository.deleteById(id);
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public List<Order> getAllOrders() {

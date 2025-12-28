@@ -70,8 +70,10 @@ class OrderWebControllerHtmlUnitTest {
 
 		String normalized = removeWindowsCR(table.asNormalizedText());
 
-		assertThat(normalized).isEqualTo(
-				"Orders\n" + "ID\tDate\tProducts\tEdit\tDelete\n" + "1\t2025-08-10\tMouse, Laptop\tEdit\tDelete");
+		assertThat(normalized.trim()).isEqualTo("""
+			    Orders
+			    ID\tDate\tProducts\tEdit\tDelete
+			    1\t2025-08-10\tMouse, Laptop\tEdit\tDelete""");
 	}
 
 	@Test

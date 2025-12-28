@@ -33,11 +33,7 @@ public class OrderRestController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Order> order(@PathVariable long id) {
 		Order order = orderService.getOrderById(id);
-		if (order != null) {
-			return ResponseEntity.ok(order);
-		} else {
-			return ResponseEntity.notFound().build();
-		}
+		return order != null ? ResponseEntity.ok(order) : ResponseEntity.notFound().build();
 	}
 
 	@PostMapping("/new")
