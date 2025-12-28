@@ -37,8 +37,12 @@ h1 {
 }
 
 .btn.secondary {
-    background-color: #0275d8;
-    color: white;
+    background-color: #0f6674;
+    color: #ffffff;
+}
+
+.btn.secondary:hover {
+    background-color: #0c5058;
 }
 
 .btn:hover {
