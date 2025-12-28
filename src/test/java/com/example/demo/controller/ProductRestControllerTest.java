@@ -41,6 +41,22 @@ class ProductRestControllerTest {
 		mvc.perform(get("/api/products").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(content().json("[]"));
 	}
+	
+	@Test
+	void testGetProductByIdFound() throws Exception {
+		Product product = new Product(1L, "Laptop", 1500.0);
+		when(productService.getProductById(1L)).thenReturn(product);
+
+		mvc.perform(get("/api/products/1")).andExpect(status().isOk()).andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.name").value("Laptop")).andExpect(jsonPath("$.price").value(1500.0));
+	}
+
+	@Test
+	void testGetProductByIdNotFound() throws Exception {
+		when(productService.getProductById(99L)).thenReturn(null);
+
+		mvc.perform(get("/api/products/99")).andExpect(status().isNotFound());
+	}
 
 	@Test
 	void testAllProductsNotEmpty() throws Exception {

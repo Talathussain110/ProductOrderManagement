@@ -12,7 +12,7 @@
 	</div>
 	
 	<div class="container">
-		<h1>Edit Product</h1>
+		<h1 th:text="${pageTitle}">Product</h1>
 
 		<div th:unless="${message.empty}" class="message">
 			<span th:text="${message}"></span>

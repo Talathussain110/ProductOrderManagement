@@ -68,6 +68,22 @@ class OrderRestControllerTest {
 	}
 
 	@Test
+	void testGetOrderByIdFound() throws Exception {
+		Order order = new Order(1L, LocalDate.parse("2025-08-10"));
+		when(orderService.getOrderById(1L)).thenReturn(order);
+
+		mvc.perform(get("/api/orders/1")).andExpect(status().isOk()).andExpect(jsonPath("$.id", is(1)))
+				.andExpect(jsonPath("$.orderDate", is("2025-08-10")));
+	}
+
+	@Test
+	void testGetOrderByIdNotFound() throws Exception {
+		when(orderService.getOrderById(99L)).thenReturn(null);
+
+		mvc.perform(get("/api/orders/99")).andExpect(status().isNotFound());
+	}
+
+	@Test
 	void testCreateOrder() throws Exception {
 		Product p1 = new Product(1L, "Laptop", 1500.00);
 		Order newOrder = new Order(3L, LocalDate.parse("2025-08-10"));
@@ -120,6 +136,13 @@ class OrderRestControllerTest {
 
 		mvc.perform(put("/api/orders/99").contentType(MediaType.APPLICATION_JSON).content(updateOrderJson))
 				.andExpect(status().isOk()).andExpect(content().string(""));
+	}
+
+	@Test
+	void testDeleteOrderNotFound() throws Exception {
+		when(orderService.deleteOrderById(99L)).thenReturn(false);
+
+		mvc.perform(delete("/api/orders/99")).andExpect(status().isNotFound());
 	}
 
 	@Test

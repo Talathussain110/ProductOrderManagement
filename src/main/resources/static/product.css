@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
+    background-color: #618eff1c;
     margin: 0;
     padding: 20px;
 }
@@ -19,11 +19,11 @@ body {
 }
 
 .btn.secondary {
-    background-color: #28a745;
+    background-color: #1f3f7a;
 }
 
 .btn.secondary:hover {
-    background-color: #23913d;
+    background-color: #162e57;
 }
 
 .btn.danger {
@@ -44,7 +44,7 @@ table {
 }
 
 caption {
-    background-color: #28a745;
+    background-color: #1f3f7a;
     color: white;
     font-size: 22px;
     font-weight: bold;
@@ -57,8 +57,17 @@ th, td {
 }
 
 th {
-    background-color: #e9ecef;
+    background-color: #162e57; /* darker blue */
+    color: white;
     font-weight: bold;
+}
+
+td .secondary {
+    background-color: #1f77b4;
+}
+
+td .secondary:hover {
+    background-color: #165d91;
 }
 
 tr:nth-child(even) {

@@ -143,5 +143,22 @@ class OrderWebControllerTest {
 		assertThat(saved.getOrderDate()).isEqualTo(LocalDate.parse("2025-06-01"));
 		assertThat(saved.getProducts()).hasSize(1).containsExactly(p);
 	}
+	
+	@Test
+	void saveOrder_withInvalidProductId_skipsAddingProduct() throws Exception {
+		when(productService.getProductById(99L)).thenReturn(null);
+
+		mvc.perform(post("/orders/save").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("orderDate", "2025-07-01").param("products", "99")).andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/orders"));
+
+		ArgumentCaptor<Order> captor = ArgumentCaptor.forClass(Order.class);
+		verify(orderService).insertNewOrder(captor.capture());
+
+		Order saved = captor.getValue();
+
+		assertThat(saved.getOrderDate()).isEqualTo(LocalDate.parse("2025-07-01"));
+		assertThat(saved.getProducts()).isEmpty();
+	}
 
 }
