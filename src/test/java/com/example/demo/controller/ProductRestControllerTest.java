@@ -35,7 +35,7 @@ class ProductRestControllerTest {
 	private ProductService productService;
 
 	@Test
-	public void testAllProductsEmpty() throws Exception {
+	void testAllProductsEmpty() throws Exception {
 		when(productService.getAllProducts()).thenReturn(List.of());
 
 		mvc.perform(get("/api/products").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())

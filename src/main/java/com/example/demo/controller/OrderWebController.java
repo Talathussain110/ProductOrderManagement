@@ -4,7 +4,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -26,13 +25,17 @@ import com.example.demo.services.ProductService;
 public class OrderWebController {
 
 	private static final String MESSAGE_ATTRIBUTE = "message";
+	private static final String ORDER_ATTRIBUTE = "order";
 	private static final String ORDERS_ATTRIBUTE = "orders";
+	private static final String ALL_PRODUCTS_ATTRIBUTE = "allProducts";
 
-	@Autowired
-	private OrderService orderService;
+    private final OrderService orderService;
+    private final ProductService productService;
 
-	@Autowired
-	private ProductService productService;
+    public OrderWebController(OrderService orderService, ProductService productService) {
+        this.orderService = orderService;
+        this.productService = productService;
+    }
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -44,26 +47,26 @@ public class OrderWebController {
 		List<Order> allOrders = orderService.getAllOrders();
 		model.addAttribute(ORDERS_ATTRIBUTE, allOrders);
 		model.addAttribute(MESSAGE_ATTRIBUTE, allOrders.isEmpty() ? "No order" : "");
-		return "order";
+		return ORDER_ATTRIBUTE;
 	}
 
 	@GetMapping("/new")
 	public String newOrder(Model model) {
-		model.addAttribute("order", new Order());
-		model.addAttribute("allProducts", productService.getAllProducts());
-		model.addAttribute("message", "");
-		return "edit_order";
+	    model.addAttribute(ORDER_ATTRIBUTE, new Order());
+	    model.addAttribute(ALL_PRODUCTS_ATTRIBUTE, productService.getAllProducts());
+	    model.addAttribute(MESSAGE_ATTRIBUTE, "");
+	    return "edit_order";
 	}
-
+	
 	@GetMapping("/edit/{id}")
 	public String editOrder(@PathVariable long id, Model model) {
-		Order order = orderService.getOrderById(id);
+	    Order order = orderService.getOrderById(id);
 
-		model.addAttribute("order", order);
-		model.addAttribute("allProducts", productService.getAllProducts());
-		model.addAttribute("message", order == null ? "No order found with id: " + id : "");
+	    model.addAttribute(ORDER_ATTRIBUTE, order);
+	    model.addAttribute(ALL_PRODUCTS_ATTRIBUTE, productService.getAllProducts());
+	    model.addAttribute(MESSAGE_ATTRIBUTE, order == null ? "No order found with id: " + id : "");
 
-		return "edit_order";
+	    return "edit_order";
 	}
 
 	@PostMapping("/save")

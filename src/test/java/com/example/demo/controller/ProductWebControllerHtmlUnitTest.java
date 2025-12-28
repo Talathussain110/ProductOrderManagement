@@ -61,8 +61,11 @@ class ProductWebControllerHtmlUnitTest {
 		HtmlTable table = page.getHtmlElementById("product_table");
 		String normalized = removeWindowsCR(table.asNormalizedText());
 
-		assertThat(normalized).isEqualTo("Products\n" + "ID\tName\tPrice\tEdit\tDelete\n"
-				+ "1\tLaptop\t1500.0\tEdit\tDelete\n" + "2\tMouse\t25.5\tEdit\tDelete");
+		assertThat(normalized).isEqualTo("""
+				Products
+				ID\tName\tPrice\tEdit\tDelete
+				1\tLaptop\t1500.0\tEdit\tDelete
+				2\tMouse\t25.5\tEdit\tDelete""");
 
 		page.getAnchorByHref("/products/edit/1");
 		page.getAnchorByHref("/products/edit/2");

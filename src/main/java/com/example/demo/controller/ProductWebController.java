@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +16,11 @@ import com.example.demo.services.ProductService;
 @RequestMapping("/products")
 public class ProductWebController {
 
-	@Autowired
-	private ProductService productService;
+	private final ProductService productService;
+
+	public ProductWebController(ProductService productService) {
+	    this.productService = productService;
+	}
 
 	private static final String MESSAGE_ATTRIBUTE = "message";
 	private static final String PRODUCT_ATTRIBUTE = "product";
@@ -29,7 +31,7 @@ public class ProductWebController {
 		List<Product> allProducts = productService.getAllProducts();
 		model.addAttribute(PRODUCTS_ATTRIBUTE, allProducts);
 		model.addAttribute(MESSAGE_ATTRIBUTE, allProducts.isEmpty() ? "No product" : "");
-		return "product";
+		return PRODUCT_ATTRIBUTE;
 	}
 
 	@GetMapping("/edit/{id}")
