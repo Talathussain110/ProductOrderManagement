@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,10 +29,15 @@ public class ProductRestController {
 	List<Product> allProducts() {
 		return productService.getAllProducts();
 	}
-
+	
 	@GetMapping("/{id}")
-	public Product product(@PathVariable long id) {
-		return productService.getProductById(id);
+	public ResponseEntity<Product> product(@PathVariable long id) {
+		Product p = productService.getProductById(id);
+		if (p != null) {
+			return ResponseEntity.ok(p);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@PostMapping("/new")

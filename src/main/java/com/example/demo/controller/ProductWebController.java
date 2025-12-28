@@ -39,6 +39,7 @@ public class ProductWebController {
 		Product product = productService.getProductById(id);
 		model.addAttribute(PRODUCT_ATTRIBUTE, product);
 		model.addAttribute(MESSAGE_ATTRIBUTE, product == null ? "No product found with id: " + id : "");
+		model.addAttribute("pageTitle", "Edit Product");
 		return "edit_product";
 	}
 
@@ -46,6 +47,7 @@ public class ProductWebController {
 	public String newProduct(Model model) {
 		model.addAttribute(PRODUCT_ATTRIBUTE, new Product());
 		model.addAttribute(MESSAGE_ATTRIBUTE, "");
+		model.addAttribute("pageTitle", "New Product");
 		return "edit_product";
 	}
 

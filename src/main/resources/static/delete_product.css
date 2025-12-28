@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background: #f8f9fa;
+    background: #618eff1c;
 }
 
 .container {
@@ -32,7 +32,7 @@ h1 {
 }
 
 .btn.primary {
-    background-color: #28a745;
+    background-color: #1f3f7a;
     color: white;
 }
 
@@ -46,9 +46,6 @@ h1 {
 }
 
 .logo {
-    height: 140px;
-    margin-bottom: 10px;
-}.logo {
     height: 140px;
     margin-bottom: 10px;
 }

@@ -12,7 +12,7 @@
 	</div>
 
 	<div class="container">
-		<h1>Edit Order</h1>
+		<h1 th:text="${pageTitle}">Order</h1>
 
 		<div th:unless="${message.empty}" class="message">
 			<span th:text="${message}"></span>
@@ -32,10 +32,10 @@
 				</p>
 
 				<div id="products-container">
-					<label>Products:</label>
+					<label for="products">Products:</label>
 
 					<div class="product-row">
-						<select name="products" class="product-select">
+						<select id="products" name="products" class="product-select">
 							<option value="" disabled selected>Select product</option>
 							<option th:each="p : ${allProducts}" th:value="${p.id}"
 								th:text="${p.name}"></option>

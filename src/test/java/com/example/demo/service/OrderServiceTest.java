@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -123,6 +124,19 @@ class OrderServiceTest {
 		verify(orderRepository, times(1)).deleteById(id);
 		assertTrue(result);
 	}
+	
+	@Test
+	void testDeleteOrderById_NotFound() {
+	    long id = 99L;
+
+	    when(orderRepository.findById(id)).thenReturn(Optional.empty());
+
+	    boolean result = orderService.deleteOrderById(id);
+
+	    verify(orderRepository, times(0)).deleteById(anyLong());
+	    assertThat(result).isFalse();
+	}
+
 
 	@Test
 	void testGetAllOrders() {
