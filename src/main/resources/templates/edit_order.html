@@ -19,7 +19,7 @@
 		</div>
 
 		<div th:if="${message.empty}">
-			<form name="order_record" th:action="@{/orders/save}"
+			<form name="order_record" th:action="@{/save}"
 				th:object="${order}" method="post" class="form">
 
 				<input type="hidden" th:field="*{id}" />

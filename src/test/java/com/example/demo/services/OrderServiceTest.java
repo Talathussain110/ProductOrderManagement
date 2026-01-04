@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -26,7 +26,6 @@ import org.mockito.MockitoAnnotations;
 import com.example.demo.model.Order;
 import com.example.demo.model.Product;
 import com.example.demo.repository.OrderRepository;
-import com.example.demo.services.OrderService;
 
 class OrderServiceTest {
 

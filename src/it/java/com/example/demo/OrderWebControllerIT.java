@@ -95,7 +95,7 @@ class OrderWebControllerIT {
 		assertThat(driver.findElement(By.tagName("h1")).getText())
 				.contains("Order with ID " + o.getId() + " was deleted.");
 
-		driver.findElement(By.cssSelector("form[action='/orders'] button")).click();
+		driver.findElement(By.cssSelector("form[action='/'] button")).click();
 		listPage.open();
 		assertThat(listPage.tableText()).doesNotContain(o.getId().toString());
 	}

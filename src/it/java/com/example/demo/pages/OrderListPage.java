@@ -14,7 +14,7 @@ public class OrderListPage {
 
 	public OrderListPage(WebDriver driver, int port) {
 		this.driver = driver;
-		this.url = "http://localhost:" + port + "/orders";
+		this.url = "http://localhost:" + port + "/";
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 	}
 
@@ -34,16 +34,16 @@ public class OrderListPage {
 	}
 
 	public OrderFormPage clickNew() {
-		driver.findElement(By.cssSelector("a[href='/orders/new']")).click();
+		driver.findElement(By.cssSelector("a[href='/new']")).click();
 		return new OrderFormPage(driver);
 	}
 
 	public OrderFormPage clickEdit(long id) {
-		driver.findElement(By.cssSelector("a[href='/orders/edit/" + id + "']")).click();
+		driver.findElement(By.cssSelector("a[href='/edit/" + id + "']")).click();
 		return new OrderFormPage(driver);
 	}
 
 	public void clickDelete(long id) {
-		driver.findElement(By.cssSelector("a[href='/orders/delete/" + id + "']")).click();
+		driver.findElement(By.cssSelector("a[href='/delete/" + id + "']")).click();
 	}
 }
