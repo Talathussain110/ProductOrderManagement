@@ -21,7 +21,7 @@ import com.example.demo.services.OrderService;
 import com.example.demo.services.ProductService;
 
 @Controller
-@RequestMapping("/orders")
+@RequestMapping("/")
 public class OrderWebController {
 
 	private static final String MESSAGE_ATTRIBUTE = "message";
@@ -66,7 +66,7 @@ public class OrderWebController {
 	    model.addAttribute(ORDER_ATTRIBUTE, order);
 	    model.addAttribute(ALL_PRODUCTS_ATTRIBUTE, productService.getAllProducts());
 	    model.addAttribute(MESSAGE_ATTRIBUTE, order == null ? "No order found with id: " + id : "");
-	    model.addAttribute("pageTitle", "New Order");
+	    model.addAttribute("pageTitle", "Edit Order");
 
 	    return "edit_order";
 	}
@@ -92,7 +92,7 @@ public class OrderWebController {
 			orderService.updateOrderById(order.getId(), order);
 		}
 
-		return "redirect:/orders";
+		return "redirect:/";
 	}
 
 	@GetMapping("/delete/{id}")

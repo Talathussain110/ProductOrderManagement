@@ -60,7 +60,7 @@ class OrderWebE2E {
 
 		String date = "2025-10-10";
 
-		driver.get(baseUrl + "/orders/new");
+		driver.get(baseUrl + "/new");
 
 		WebElement dateField = driver.findElement(By.name("orderDate"));
 		((JavascriptExecutor) driver).executeScript("arguments[0].value='" + date + "';", dateField);
@@ -94,7 +94,7 @@ class OrderWebE2E {
 
 		String date = "2025-11-11";
 
-		driver.get(baseUrl + "/orders/new");
+		driver.get(baseUrl + "/new");
 
 		WebElement dateField = driver.findElement(By.name("orderDate"));
 		((JavascriptExecutor) driver).executeScript("arguments[0].value='" + date + "';", dateField);
@@ -107,7 +107,7 @@ class OrderWebE2E {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		wait.until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), date));
 
-		driver.get(baseUrl + "/orders");
+		driver.get(baseUrl + "/");
 		WebElement row = driver.findElement(By.xpath("//tr[td/text() = '" + date + "']"));
 		row.findElement(By.linkText("Delete")).click();
 

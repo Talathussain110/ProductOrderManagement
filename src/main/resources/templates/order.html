@@ -12,7 +12,7 @@
 	</div>
 
 	<div class="button-group">
-		<a th:href="@{/orders/new}" class="btn secondary">New order</a> <a
+		<a th:href="@{/new}" class="btn secondary">New order</a> <a
 			th:href="@{/products}" class="btn secondary">All products</a>
 	</div>
 
@@ -39,9 +39,9 @@
 					<td th:text="${order.id}"></td>
 					<td th:text="${order.orderDate}"></td>
 					<td th:text="${#strings.listJoin(order.products.![name], ', ')}"></td>
-					<td><a th:href="@{/orders/edit/{id}(id=${order.id})}"
+					<td><a th:href="@{/edit/{id}(id=${order.id})}"
 						class="btn secondary">Edit</a></td>
-					<td><a th:href="@{/orders/delete/{id}(id=${order.id})}"
+					<td><a th:href="@{/delete/{id}(id=${order.id})}"
 						class="btn danger">Delete</a></td>
 				</tr>
 			</tbody>

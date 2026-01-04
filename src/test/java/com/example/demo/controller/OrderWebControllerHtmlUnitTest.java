@@ -36,22 +36,22 @@ class OrderWebControllerHtmlUnitTest {
 
 	@Test
 	void test_HomePageTitle() throws Exception {
-		HtmlPage page = webClient.getPage("/orders");
+		HtmlPage page = webClient.getPage("/");
 		assertThat(page.getTitleText()).isEqualTo("Orders");
 	}
 
 	@Test
 	void testHomePageWithNoOrders() throws Exception {
 		when(orderService.getAllOrders()).thenReturn(emptyList());
-		HtmlPage page = webClient.getPage("/orders");
+		HtmlPage page = webClient.getPage("/");
 		assertThat(page.getBody().getTextContent()).contains("No order");
 	}
 
 	@Test
 	void test_HomePage_ShouldProvideALinkForCreatingANewOrder() throws Exception {
-		HtmlPage page = webClient.getPage("/orders");
+		HtmlPage page = webClient.getPage("/");
 		HtmlAnchor newLink = page.getAnchorByText("New order");
-		assertThat(newLink.getHrefAttribute()).isEqualTo("/orders/new");
+		assertThat(newLink.getHrefAttribute()).isEqualTo("/new");
 	}
 
 	@Test
@@ -65,7 +65,7 @@ class OrderWebControllerHtmlUnitTest {
 
 		when(orderService.getAllOrders()).thenReturn(asList(o));
 
-		HtmlPage page = webClient.getPage("/orders");
+		HtmlPage page = webClient.getPage("/");
 		HtmlTable table = page.getHtmlElementById("order_table");
 
 		String normalized = removeWindowsCR(table.asNormalizedText());
@@ -79,7 +79,7 @@ class OrderWebControllerHtmlUnitTest {
 	@Test
 	void testEditNonExistentOrder() throws Exception {
 		when(orderService.getOrderById(1L)).thenReturn(null);
-		HtmlPage page = webClient.getPage("/orders/edit/1");
+		HtmlPage page = webClient.getPage("/edit/1");
 		assertThat(page.getBody().getTextContent()).contains("No order found with id: 1");
 	}
 
@@ -88,7 +88,7 @@ class OrderWebControllerHtmlUnitTest {
 		Order o = new Order(1L, LocalDate.parse("2025-05-15"));
 		when(orderService.getOrderById(1L)).thenReturn(o);
 
-		HtmlPage page = webClient.getPage("/orders/edit/1");
+		HtmlPage page = webClient.getPage("/edit/1");
 		HtmlForm form = page.getFormByName("order_record");
 
 		form.getInputByValue("2025-05-15").setValueAttribute("2025-06-01");
@@ -99,7 +99,7 @@ class OrderWebControllerHtmlUnitTest {
 
 	@Test
 	void testEditNewOrder() throws Exception {
-		HtmlPage page = webClient.getPage("/orders/new");
+		HtmlPage page = webClient.getPage("/new");
 		HtmlForm form = page.getFormByName("order_record");
 
 		form.getInputByName("orderDate").setValueAttribute("2025-09-09");
@@ -112,7 +112,7 @@ class OrderWebControllerHtmlUnitTest {
 	void testDeleteOrder_MessageShown() throws Exception {
 		when(orderService.deleteOrderById(4L)).thenReturn(true);
 
-		HtmlPage page = webClient.getPage("/orders/delete/4");
+		HtmlPage page = webClient.getPage("/delete/4");
 
 		verify(orderService).deleteOrderById(4L);
 
